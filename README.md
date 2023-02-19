@@ -5,24 +5,15 @@ Link figma [here](https://www.figma.com/file/PjW1KRml7MBXvKonq9PTG4/E-Warung?nod
 
 
  
-## Target Design
- 
-
-### Mobile  
-
-![](./mobile-menu.png)
-
-![](./mobile-detail.png)
-
-![](./mobile-keranjang.png)
-
-![](./mobile-qr.png)
+## Preview Mobile 
 
 
-### Desktop
+![](./preview-1.png)
+![](./preview-2.png)  
 
 
-![](./desktop-menu.png)
+![](./preview-3.png)
+![](./preview-4.png)  
 
 
-![](./desktop-keranjang.png)
+![](./preview-5.png)
