@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('welcome');
 });
+
+
+$base_api = "/api/";
+
+
+// query param ?category=food
+Route::get($base_api.'list-menu', function (Request $request) {
+    $category = $request->query('category');
+
+    $jsonfile;
+    $data;
+
+    if($category == 'drink') 
+        $json = Storage::get('public/list-menu/drink.json');
+    else if ($category == 'snack') 
+        $json = Storage::get('public/list-menu/snack.json');
+    else
+        $json = Storage::get('public/list-menu/food.json');     // default or fallback
+    
+    $data = json_decode($json, true);
+    return response()->json($data);
+});
+
+Route::post($base_api.'order', function (Request $request) {
+    $data = $request->all();
+    $json = json_encode($data, JSON_PRETTY_PRINT);
+
+    $date_postfix = date('YmdHis');
+    $number_postfix = rand(1,9);
+    Storage::put('order/order-'.$date_postfix.'-'.strval($number_postfix).'.json', $json);
+    return response()->json(['status' => 'ok', 'message' => 'order has been saved'], 201);
+});
+
+Route::get($base_api.'order', function () {
+    return "use this url with POST method";
+});
+
+Route::get('{any}', function($url) {
+    return response()->json(['error' => "page not found"], 404);
+})->where('any', '.*');
