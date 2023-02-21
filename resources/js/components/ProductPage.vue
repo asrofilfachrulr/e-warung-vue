@@ -61,24 +61,24 @@ export default {
         }),
     },
     methods: {
-        onClickCategory: function (product) {
+        onClickCategory: async function (product) {
             console.log("trying fetching data");
             if (product === "FOODS") {
                 if (Object.keys(this.foods).length === 0) {
                     console.log("trying dispatch data foods");
-                    this.$store.dispatch("products/fetchFoods");
+                    await this.$store.dispatch("products/fetchFoods");
                 }
                 this.products = this.foods;
             } else if (product === "DRINKS") {
                 if (Object.keys(this.drinks).length === 0) {
                     console.log("trying dispatch data drinks");
-                    this.$store.dispatch("products/fetchDrinks");
+                    await this.$store.dispatch("products/fetchDrinks");
                 }
                 this.products = this.drinks;
             } else if (product === "SNACKS") {
                 if (Object.keys(this.snacks).length === 0) {
                     console.log("trying dispatch data snacks");
-                    this.$store.dispatch("products/fetchSnacks");
+                    await this.$store.dispatch("products/fetchSnacks");
                 }
                 this.products = this.snacks;
             }
