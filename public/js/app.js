@@ -5345,11 +5345,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       products: {}
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
-    foods: "products/getFoods",
-    drinks: "products/getDrinks",
-    snacks: "products/getSnacks"
-  })),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("products", {
+    foods: "getFoods",
+    drinks: "getDrinks",
+    snacks: "getSnacks"
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"])),
   methods: {
     onClickCategory: function () {
       var _onClickCategory = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(product) {
@@ -5367,7 +5367,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
               console.log("trying dispatch data foods");
               _context.next = 6;
-              return this.$store.dispatch("products/fetchFoods");
+              return this.fetchFoods;
             case 6:
               this.products = this.foods;
               _context.next = 23;
@@ -5383,7 +5383,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
               console.log("trying dispatch data drinks");
               _context.next = 14;
-              return this.$store.dispatch("products/fetchDrinks");
+              return this.fetchDrinks;
             case 14:
               this.products = this.drinks;
               _context.next = 23;
@@ -5399,7 +5399,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
               console.log("trying dispatch data snacks");
               _context.next = 22;
-              return this.$store.dispatch("products/fetchSnacks");
+              return this.fetchSnacks;
             case 22:
               this.products = this.snacks;
             case 23:
@@ -5414,9 +5414,27 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return onClickCategory;
     }()
   },
-  mounted: function mounted() {
-    console.log("mounted");
-  }
+  mounted: function () {
+    var _mounted = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            console.log("mounted");
+            _context2.next = 3;
+            return this.fetchFoods;
+          case 3:
+            this.products = this.foods;
+          case 4:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2, this);
+    }));
+    function mounted() {
+      return _mounted.apply(this, arguments);
+    }
+    return mounted;
+  }()
 });
 
 /***/ }),

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
     data: function () {
         return {
@@ -54,11 +54,12 @@ export default {
         };
     },
     computed: {
-        ...mapGetters({
-            foods: "products/getFoods",
-            drinks: "products/getDrinks",
-            snacks: "products/getSnacks",
+        ...mapGetters("products", {
+            foods: "getFoods",
+            drinks: "getDrinks",
+            snacks: "getSnacks",
         }),
+        ...mapActions("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"]),
     },
     methods: {
         onClickCategory: async function (product) {
@@ -66,26 +67,28 @@ export default {
             if (product === "FOODS") {
                 if (Object.keys(this.foods).length === 0) {
                     console.log("trying dispatch data foods");
-                    await this.$store.dispatch("products/fetchFoods");
+                    await this.fetchFoods;
                 }
                 this.products = this.foods;
             } else if (product === "DRINKS") {
                 if (Object.keys(this.drinks).length === 0) {
                     console.log("trying dispatch data drinks");
-                    await this.$store.dispatch("products/fetchDrinks");
+                    await this.fetchDrinks;
                 }
                 this.products = this.drinks;
             } else if (product === "SNACKS") {
                 if (Object.keys(this.snacks).length === 0) {
                     console.log("trying dispatch data snacks");
-                    await this.$store.dispatch("products/fetchSnacks");
+                    await this.fetchSnacks;
                 }
                 this.products = this.snacks;
             }
         },
     },
-    mounted() {
+    mounted: async function () {
         console.log("mounted");
+        await this.fetchFoods;
+        this.products = this.foods;
     },
 };
 </script>
