@@ -4,44 +4,54 @@
         <router-link to="/cart">
             <button class="btn btn-primary">Cart Page</button>
         </router-link>
-        <label
-            for="radio-food"
-            role="btn"
-            class="btn btn-primary"
-            @click="onClickCategory('FOODS')"
-            ><input
-                id="radio-food"
-                type="radio"
-                name="product-category"
-            />Foods</label
-        >
-        <label
-            for="radio-drink"
-            role="btn"
-            class="btn btn-primary"
-            @click="onClickCategory('DRINKS')"
-            ><input
-                id="radio-drink"
-                type="radio"
-                name="product-category"
-            />Drinks</label
-        >
-        <label
-            for="radio-snack"
-            role="btn"
-            class="btn btn-primary"
-            @click="onClickCategory('SNACKS')"
-            ><input
-                id="radio-snack"
-                type="radio"
-                name="product-category"
-            />Snacks</label
-        >
-        <product-section
-            v-for="(product, index) in products.items"
-            :key="index"
-            :product="product"
-        ></product-section>
+        <div class="mt-4 d-flex justify-content-evenly">
+            <label
+                for="radio-food"
+                role="btn"
+                class="btn btn-primary"
+                @click="onClickCategory('FOODS')"
+                ><input
+                    id="radio-food"
+                    type="radio"
+                    name="product-category"
+                    checked="true"
+                />Foods</label
+            >
+            <label
+                for="radio-drink"
+                role="btn"
+                class="btn btn-primary"
+                @click="onClickCategory('DRINKS')"
+                ><input
+                    id="radio-drink"
+                    type="radio"
+                    name="product-category"
+                />Drinks</label
+            >
+            <label
+                for="radio-snack"
+                role="btn"
+                class="btn btn-primary"
+                @click="onClickCategory('SNACKS')"
+                ><input
+                    id="radio-snack"
+                    type="radio"
+                    name="product-category"
+                />Snacks</label
+            >
+        </div>
+        <div class="container-fluid">
+            <product-section
+                :productType="'tile'"
+                :products="products"
+                :title="currentTitle"
+            ></product-section>
+            <product-section
+                :productType="'row'"
+                :products="products"
+                :title="currentTitle"
+            ></product-section>
+        </div>
     </div>
 </template>
 
@@ -51,6 +61,21 @@ export default {
     data: function () {
         return {
             products: {},
+            currentTitle: {},
+            titles: {
+                foods: {
+                    tile: "Paling Banyak Dibeli",
+                    row: "Semua Makanan",
+                },
+                drinks: {
+                    tile: "Sikat Promo!",
+                    row: "Semua Minuman",
+                },
+                snacks: {
+                    tile: "Bikin Gagal Diet",
+                    row: "Semua Camilan",
+                },
+            },
         };
     },
     computed: {
@@ -70,18 +95,21 @@ export default {
                     await this.fetchFoods;
                 }
                 this.products = this.foods;
+                this.currentTitle = this.titles.foods;
             } else if (product === "DRINKS") {
                 if (Object.keys(this.drinks).length === 0) {
                     console.log("trying dispatch data drinks");
                     await this.fetchDrinks;
                 }
                 this.products = this.drinks;
+                this.currentTitle = this.titles.drinks;
             } else if (product === "SNACKS") {
                 if (Object.keys(this.snacks).length === 0) {
                     console.log("trying dispatch data snacks");
                     await this.fetchSnacks;
                 }
                 this.products = this.snacks;
+                this.currentTitle = this.titles.snacks;
             }
         },
     },
@@ -89,6 +117,7 @@ export default {
         console.log("mounted");
         await this.fetchFoods;
         this.products = this.foods;
+        this.currentTitle = this.titles.foods;
     },
 };
 </script>

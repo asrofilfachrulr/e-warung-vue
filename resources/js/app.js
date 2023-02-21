@@ -38,6 +38,8 @@ Vue.component(
     "product-section",
     require("./components/ProductSection.vue").default
 );
+Vue.component("product-row", require("./components/ProductRow.vue").default);
+Vue.component("product-tile", require("./components/ProductTile.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
