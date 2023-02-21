@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', function() {
-    return view('welcome');
-});
 
+/*
+*   MOCKING API Router
+*/
 
 $base_api = "/api/";
 
@@ -56,6 +56,11 @@ Route::get($base_api.'order', function () {
     return "use this url with POST method";
 });
 
-Route::get('{any}', function($url) {
-    return response()->json(['error' => "page not found"], 404);
+
+/*
+*   FrontEnd Endpoint
+*/
+
+Route::get('/{any?}', function() {
+    return view('main');
 })->where('any', '.*');
