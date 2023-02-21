@@ -4,6 +4,7 @@
         class="card"
         style="max-width: 100%"
         v-if="product.discount == 0"
+        @click="handleClick"
     >
         <div class="row g-0">
             <div class="col-4 p-2">
@@ -29,6 +30,11 @@
 export default {
     props: {
         product: Object,
+    },
+    methods: {
+        handleClick() {
+            this.$emit("productClicked", this.product.id);
+        },
     },
 };
 </script>

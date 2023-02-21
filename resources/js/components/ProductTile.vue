@@ -4,6 +4,7 @@
         class="card"
         style="width: 160px"
         v-if="product.discount != 0"
+        @click="handleClick"
     >
         <img :src="product.img" class="card-img-top" alt="..." />
         <div class="card-body">
@@ -24,6 +25,11 @@ export default {
         product: Object,
     },
     mounted() {},
+    methods: {
+        handleClick() {
+            this.$emit("productClicked", this.product.id);
+        },
+    },
 };
 </script>
 

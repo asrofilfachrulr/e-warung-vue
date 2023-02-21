@@ -45,18 +45,30 @@
                 :productType="'tile'"
                 :products="products"
                 :title="currentTitle"
+                @productClicked="toggleModalProduct"
             ></product-section>
             <product-section
                 :productType="'row'"
                 :products="products"
                 :title="currentTitle"
+                @productClicked="toggleModalProduct"
             ></product-section>
         </div>
+        <centered-modal
+            :id="modalId"
+            :header="modalData.header"
+            :body="modalData.body"
+            :footer="modalData.footer"
+        ></centered-modal>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
+import ProdModalBodyVue from "./ModalComponent/ProductPage/ProdModalBody.vue";
+import ProdModalFooterVue from "./ModalComponent/ProductPage/ProdModalFooter.vue";
+import ProdModalHeaderVue from "./ModalComponent/ProductPage/ProdModalHeader.vue";
 export default {
     data: function () {
         return {
@@ -74,6 +86,30 @@ export default {
                 snacks: {
                     tile: "Bikin Gagal Diet",
                     row: "Semua Camilan",
+                },
+            },
+            modalId: "productModal",
+            modalData: {
+                header: {
+                    component: ProdModalHeaderVue,
+                    data: {
+                        title: "",
+                    },
+                },
+                body: {
+                    component: ProdModalBodyVue,
+                    data: {
+                        img: "",
+                        desc: "",
+                        ph: "",
+                        stock: "",
+                    },
+                },
+                footer: {
+                    component: ProdModalFooterVue,
+                    data: {
+                        stock: "",
+                    },
                 },
             },
         };
@@ -111,6 +147,25 @@ export default {
                 this.products = this.snacks;
                 this.currentTitle = this.titles.snacks;
             }
+        },
+        toggleModalProduct: function (id) {
+            let product = {};
+            for (let prod of this.products.items)
+                if (prod.id === id) {
+                    product = prod;
+                    break;
+                }
+
+            this.modalData.header.data.title = product.name;
+
+            this.modalData.body.data.desc = product.desc;
+            this.modalData.body.data.img = product.img;
+            this.modalData.body.data.ph = product.custom.requestPh;
+            this.modalData.body.data.stock = product.stock;
+
+            this.modalData.footer.data.stock = product.stock;
+            console.log(`toggling modal with product id: ${id}`);
+            $("#" + this.modalId).modal("toggle");
         },
     },
     mounted: async function () {

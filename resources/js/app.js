@@ -41,6 +41,24 @@ Vue.component(
 Vue.component("product-row", require("./components/ProductRow.vue").default);
 Vue.component("product-tile", require("./components/ProductTile.vue").default);
 
+Vue.component(
+    "centered-modal",
+    require("./components/CenteredModal.vue").default
+);
+
+Vue.component(
+    "prod-modal-header",
+    require("./components/ModalComponent/ProductPage/ProdModalHeader").default
+);
+Vue.component(
+    "prod-modal-body",
+    require("./components/ModalComponent/ProductPage/ProdModalBody").default
+);
+Vue.component(
+    "prod-modal-footer",
+    require("./components/ModalComponent/ProductPage/ProdModalFooter").default
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
