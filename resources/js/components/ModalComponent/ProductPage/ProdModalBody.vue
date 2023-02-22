@@ -9,7 +9,7 @@
                 type="text"
                 :placeholder="data.ph"
             />
-            <small style="float: left">stok: {{ data.stock }}</small>
+            <small style="float: left">Stok Tersedia: {{ data.stock }}</small>
         </div>
     </div>
 </template>

@@ -147,6 +147,7 @@ export default {
         product: {
             handler: function () {
                 this.modalData.body.data.stock = this.product.stock;
+                this.modalData.footer.data.stock = this.product.stock;
             },
             deep: true,
         },

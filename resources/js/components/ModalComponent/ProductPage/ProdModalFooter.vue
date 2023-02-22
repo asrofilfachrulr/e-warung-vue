@@ -11,6 +11,7 @@
                 class="btn btn-primary"
                 style="padding: 0.5em 0.75em"
                 @click="add"
+                v-bind:disabled="data.stock <= 0"
             >
                 Tambah
             </button>
@@ -34,6 +35,9 @@ export default {
                 id: this.data.id,
                 number: 1,
             });
+        },
+        isStockEmpty() {
+            return this.data.stock <= 0 ? "true" : "false";
         },
     },
 };

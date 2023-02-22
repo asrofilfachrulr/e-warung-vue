@@ -5463,6 +5463,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         id: this.data.id,
         number: 1
       });
+    },
+    isStockEmpty: function isStockEmpty() {
+      return this.data.stock <= 0 ? "true" : "false";
     }
   })
 });
@@ -5571,6 +5574,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     product: {
       handler: function handler() {
         this.modalData.body.data.stock = this.product.stock;
+        this.modalData.footer.data.stock = this.product.stock;
       },
       deep: true
     }
@@ -6046,7 +6050,7 @@ var render = function render() {
     staticStyle: {
       "float": "left"
     }
-  }, [_vm._v("stok: " + _vm._s(_vm.data.stock))])])]);
+  }, [_vm._v("Stok Tersedia: " + _vm._s(_vm.data.stock))])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -6086,6 +6090,9 @@ var render = function render() {
     staticClass: "btn btn-primary",
     staticStyle: {
       padding: "0.5em 0.75em"
+    },
+    attrs: {
+      disabled: _vm.data.stock <= 0
     },
     on: {
       click: _vm.add
