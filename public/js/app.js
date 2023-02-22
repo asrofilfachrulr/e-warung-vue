@@ -5425,10 +5425,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      customRequestText: ""
+    };
+  },
   props: {
     data: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    clearText: function clearText() {
+      this.customRequestText = "";
     }
   }
 });
@@ -6072,17 +6082,45 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "px-2"
-  }, [_c("p", [_vm._v(_vm._s(_vm.data.desc))]), _vm._v(" "), _c("input", {
-    staticClass: "w-100",
+  }, [_c("p", [_vm._v(_vm._s(_vm.data.desc))]), _vm._v(" "), _c("div", {
+    staticClass: "input-group"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.customRequestText,
+      expression: "customRequestText"
+    }],
+    staticClass: "form-control",
     staticStyle: {
-      display: "block",
-      "border-radius": "10px"
+      height: "initial !important"
     },
     attrs: {
       type: "text",
       placeholder: _vm.data.ph
+    },
+    domProps: {
+      value: _vm.customRequestText
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.customRequestText = $event.target.value;
+      }
     }
-  }), _vm._v(" "), _c("small", {
+  }), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-danger",
+    staticStyle: {
+      "font-size": "0.9rem"
+    },
+    attrs: {
+      type: "button",
+      id: "button-addon2"
+    },
+    on: {
+      click: _vm.clearText
+    }
+  }, [_vm._v("\n                x\n            ")])]), _vm._v(" "), _c("small", {
     staticStyle: {
       "float": "left"
     }
