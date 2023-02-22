@@ -4,14 +4,16 @@
             <span>Tambahkan ke Keranjang</span>
         </div>
         <div class="col-3">
-            <input type="number" :max="data.stock" min="0" value="1" />
+            <input type="number" v-model="qty" :max="data.stock" min="0" />
         </div>
         <div class="col-3">
             <button
                 class="btn btn-primary"
                 style="padding: 0.5em 0.75em"
                 @click="add"
-                v-bind:disabled="data.stock <= 0"
+                v-bind:disabled="
+                    data.stock <= 0 || qty > data.stock || qty <= 0
+                "
             >
                 Tambah
             </button>
@@ -22,6 +24,11 @@
 <script>
 import { mapActions } from "vuex";
 export default {
+    data: function () {
+        return {
+            qty: this.data.stock >= 0 ? 1 : 0,
+        };
+    },
     props: {
         data: {
             type: Object,
@@ -31,9 +38,10 @@ export default {
     methods: {
         ...mapActions("products", ["modifyStock"]),
         add: function () {
+            console.log(`stock would be modified by ${this.qty}`);
             this.modifyStock({
                 id: this.data.id,
-                number: 1,
+                number: this.qty,
             });
         },
         isStockEmpty() {

@@ -5451,6 +5451,11 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      qty: this.data.stock >= 0 ? 1 : 0
+    };
+  },
   props: {
     data: {
       type: Object,
@@ -5459,9 +5464,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("products", ["modifyStock"])), {}, {
     add: function add() {
+      console.log("stock would be modified by ".concat(this.qty));
       this.modifyStock({
         id: this.data.id,
-        number: 1
+        number: this.qty
       });
     },
     isStockEmpty: function isStockEmpty() {
@@ -6078,11 +6084,25 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "col-3"
   }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.qty,
+      expression: "qty"
+    }],
     attrs: {
       type: "number",
       max: _vm.data.stock,
-      min: "0",
-      value: "1"
+      min: "0"
+    },
+    domProps: {
+      value: _vm.qty
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.qty = $event.target.value;
+      }
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "col-3"
@@ -6092,7 +6112,7 @@ var render = function render() {
       padding: "0.5em 0.75em"
     },
     attrs: {
-      disabled: _vm.data.stock <= 0
+      disabled: _vm.data.stock <= 0 || _vm.qty > _vm.data.stock || _vm.qty <= 0
     },
     on: {
       click: _vm.add
