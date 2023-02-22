@@ -11,8 +11,13 @@ const fetchSnacks = async function ({ commit }) {
     commit("setSnacks", response.data);
 };
 
+const modifyStock = function ({ commit }, payload) {
+    commit("modifyStock", payload);
+};
+
 export default {
     fetchFoods,
     fetchDrinks,
     fetchSnacks,
+    modifyStock,
 };

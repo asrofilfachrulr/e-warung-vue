@@ -59,6 +59,11 @@ Vue.component(
     require("./components/ModalComponent/ProductPage/ProdModalFooter").default
 );
 
+Vue.component(
+    "stock-monitor",
+    require("./components/Debugger/StockMonitor.vue").default
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
