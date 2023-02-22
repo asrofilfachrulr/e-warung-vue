@@ -59,6 +59,7 @@
             :header="modalData.header"
             :body="modalData.body"
             :footer="modalData.footer"
+            :state="modalState"
         ></centered-modal>
         <stock-monitor
             :id="'monitorModalId'"
@@ -141,6 +142,7 @@ export default {
                     },
                 },
             },
+            modalState: false,
         };
     },
     watch: {
@@ -172,17 +174,17 @@ export default {
         fetchIfNotLoaded: async function (product) {
             if (product === "FOODS") {
                 if (Object.keys(this.foods).length === 0) {
-                    console.log("trying dispatch data foods");
+                    console.log("trying fetch data foods");
                     await this.fetchFoods;
                 }
             } else if (product === "DRINKS") {
                 if (Object.keys(this.drinks).length === 0) {
-                    console.log("trying dispatch data drinks");
+                    console.log("trying fetch data drinks");
                     await this.fetchDrinks;
                 }
             } else if (product === "SNACKS") {
                 if (Object.keys(this.snacks).length === 0) {
-                    console.log("trying dispatch data snacks");
+                    console.log("trying fetch data snacks");
                     await this.fetchSnacks;
                 }
             }
@@ -215,6 +217,7 @@ export default {
             this.modalData.footer.data.stock = this.product.stock;
 
             console.log(`toggling modal with product id: ${id}`);
+            this.modalState = !this.modalState;
             $("#" + this.modalId).modal("toggle");
         },
         wrapAllProducts: async function () {

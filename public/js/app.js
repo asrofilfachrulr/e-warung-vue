@@ -5345,6 +5345,10 @@ __webpack_require__.r(__webpack_exports__);
     footer: {
       type: Object,
       required: true
+    },
+    state: {
+      type: Boolean,
+      required: true
     }
   }
 });
@@ -5453,17 +5457,30 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      qty: this.data.stock >= 0 ? 1 : 0
+      qty: 0
     };
   },
   props: {
     data: {
       type: Object,
       required: true
+    },
+    state: {
+      type: Boolean,
+      required: true
     }
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("products", ["modifyStock"])), {}, {
+    setDefault: function setDefault() {
+      this.qty = this.data.stock >= 0 ? 1 : 0;
+    },
     add: function add() {
+      this.qty += 1;
+    },
+    reduce: function reduce() {
+      this.qty -= 1;
+    },
+    reduceStock: function reduceStock() {
       console.log("stock would be modified by ".concat(this.qty));
       this.modifyStock({
         id: this.data.id,
@@ -5473,7 +5490,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     isStockEmpty: function isStockEmpty() {
       return this.data.stock <= 0 ? "true" : "false";
     }
-  })
+  }),
+  watch: {
+    state: function state() {
+      //trigger default every state changes
+      console.log("modal state changes");
+      this.setDefault();
+    }
+  }
 });
 
 /***/ }),
@@ -5573,7 +5597,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             stock: ""
           }
         }
-      }
+      },
+      modalState: false
     };
   },
   watch: {
@@ -5613,7 +5638,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _context.next = 5;
                 break;
               }
-              console.log("trying dispatch data foods");
+              console.log("trying fetch data foods");
               _context.next = 5;
               return this.fetchFoods;
             case 5:
@@ -5628,7 +5653,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _context.next = 12;
                 break;
               }
-              console.log("trying dispatch data drinks");
+              console.log("trying fetch data drinks");
               _context.next = 12;
               return this.fetchDrinks;
             case 12:
@@ -5643,7 +5668,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _context.next = 19;
                 break;
               }
-              console.log("trying dispatch data snacks");
+              console.log("trying fetch data snacks");
               _context.next = 19;
               return this.fetchSnacks;
             case 19:
@@ -5697,6 +5722,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.modalData.footer.data.id = this.product.id;
       this.modalData.footer.data.stock = this.product.stock;
       console.log("toggling modal with product id: ".concat(id));
+      this.modalState = !this.modalState;
       $("#" + this.modalId).modal("toggle");
     },
     wrapAllProducts: function () {
@@ -5901,10 +5927,14 @@ var render = function render() {
       data: _vm.body.data
     }
   })], 1), _vm._v(" "), _c("div", {
-    staticClass: "modal-footer"
+    staticClass: "modal-footer",
+    staticStyle: {
+      padding: "0"
+    }
   }, [_c(_vm.footer.component, {
     tag: "component",
     attrs: {
+      state: _vm.state,
       data: _vm.footer.data
     }
   })], 1)])])]);
@@ -6082,14 +6112,25 @@ var render = function render() {
   return _c("div", {
     staticClass: "row"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "col-3"
-  }, [_c("input", {
+    staticClass: "col-5"
+  }, [_c("div", {
+    staticClass: "input-group h-100"
+  }, [_c("button", {
+    staticClass: "btn btn-secondary",
+    attrs: {
+      disabled: _vm.qty < 1
+    },
+    on: {
+      click: _vm.reduce
+    }
+  }, [_vm._v("\n                -\n            ")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: _vm.qty,
       expression: "qty"
     }],
+    staticClass: "h-100 d-block mx-auto text-center form-control",
     attrs: {
       type: "number",
       max: _vm.data.stock,
@@ -6104,10 +6145,18 @@ var render = function render() {
         _vm.qty = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "col-3"
+  }), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-secondary",
+    attrs: {
+      disabled: _vm.qty >= _vm.data.stock
+    },
+    on: {
+      click: _vm.add
+    }
+  }, [_vm._v("\n                +\n            ")])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-3 px-0"
   }, [_c("button", {
-    staticClass: "btn btn-primary",
+    staticClass: "btn btn-primary h-100 w-100",
     staticStyle: {
       padding: "0.5em 0.75em"
     },
@@ -6115,7 +6164,7 @@ var render = function render() {
       disabled: _vm.data.stock <= 0 || _vm.qty > _vm.data.stock || _vm.qty <= 0
     },
     on: {
-      click: _vm.add
+      click: _vm.reduceStock
     }
   }, [_vm._v("\n            Tambah\n        ")])])]);
 };
@@ -6123,7 +6172,7 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "col-3"
+    staticClass: "col-4"
   }, [_c("span", [_vm._v("Tambahkan ke Keranjang")])]);
 }];
 render._withStripped = true;
@@ -6256,7 +6305,8 @@ var render = function render() {
       id: _vm.modalId,
       header: _vm.modalData.header,
       body: _vm.modalData.body,
-      footer: _vm.modalData.footer
+      footer: _vm.modalData.footer,
+      state: _vm.modalState
     }
   }), _vm._v(" "), _c("stock-monitor", {
     ref: "stockMonitorModal",

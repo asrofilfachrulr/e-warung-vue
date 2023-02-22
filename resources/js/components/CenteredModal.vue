@@ -14,8 +14,9 @@
                         :data="body.data"
                     ></component>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="padding: 0">
                     <component
+                        :state="state"
                         :is="footer.component"
                         :data="footer.data"
                     ></component>
@@ -42,6 +43,10 @@ export default {
         },
         footer: {
             type: Object,
+            required: true,
+        },
+        state: {
+            type: Boolean,
             required: true,
         },
     },
