@@ -16,13 +16,12 @@
                     class="h-100 d-block mx-auto text-center form-control"
                     type="number"
                     v-model="qty"
-                    :max="data.stock"
-                    min="0"
+                    readonly
                 />
                 <button
                     class="btn btn-secondary"
                     @click="add"
-                    v-bind:disabled="qty >= data.stock"
+                    v-bind:disabled="qty >= data.origin"
                 >
                     +
                 </button>
@@ -34,9 +33,7 @@
                 style="padding: 0.5em 0.75em"
                 @click="reduceStock"
                 data-bs-dismiss="modal"
-                v-bind:disabled="
-                    data.stock <= 0 || qty > data.stock || qty <= 0
-                "
+                v-bind:disabled="qty > data.origin || qty <= 0"
             >
                 Tambah
             </button>
@@ -45,6 +42,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
     data: function () {
         return {
@@ -62,8 +60,9 @@ export default {
         },
     },
     methods: {
+        ...mapActions("products", ["modifyStock", "modifyOrigin"]),
         setDefault() {
-            this.qty = this.data.stock >= 0 ? 1 : 0;
+            this.qty = 0;
         },
         add() {
             this.qty += 1;
@@ -75,12 +74,23 @@ export default {
             console.log(`stock would be modified by ${this.qty}`);
             this.$emit("data-callback-footer", this.qty);
             this.$emit("submit-action");
+
+            // changes the origin
+            this.modifyOrigin({
+                id: this.data.id,
+            });
         },
         isStockEmpty() {
             return this.data.stock <= 0 ? "true" : "false";
         },
     },
     watch: {
+        qty() {
+            this.modifyStock({
+                id: this.data.id,
+                number: this.qty,
+            });
+        },
         state() {
             //trigger default every state changes
             console.log("modal state changes");
