@@ -5322,9 +5322,26 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("cart", {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("cart", {
     cart: "getCart"
-  }))
+  })), {}, {
+    flatCart: function flatCart() {
+      var _this = this;
+      // [{id, ..., req, qty}]
+      var flattenCart = [];
+      Object.keys(this.cart["products"]).forEach(function (id) {
+        Object.keys(_this.cart["products"][id]["request"]).forEach(function (req) {
+          flattenCart.push(_objectSpread(_objectSpread({
+            id: id
+          }, _this.cart["products"][id]), {}, {
+            request: req,
+            qty: _this.cart["products"][id]["request"][req]
+          }));
+        });
+      });
+      return flattenCart;
+    }
+  })
 });
 
 /***/ }),
@@ -5502,6 +5519,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5518,9 +5543,9 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("products", ["modifyStock", "modifyOrigin"])), {}, {
     setDefault: function setDefault() {
-      this.qty = this.data.stock >= 0 ? 1 : 0;
+      this.qty = 0;
     },
     add: function add() {
       this.qty += 1;
@@ -5532,12 +5557,23 @@ __webpack_require__.r(__webpack_exports__);
       console.log("stock would be modified by ".concat(this.qty));
       this.$emit("data-callback-footer", this.qty);
       this.$emit("submit-action");
+
+      // changes the origin
+      this.modifyOrigin({
+        id: this.data.id
+      });
     },
     isStockEmpty: function isStockEmpty() {
       return this.data.stock <= 0 ? "true" : "false";
     }
-  },
+  }),
   watch: {
+    qty: function qty() {
+      this.modifyStock({
+        id: this.data.id,
+        number: this.qty
+      });
+    },
     state: function state() {
       //trigger default every state changes
       console.log("modal state changes");
@@ -5636,7 +5672,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             img: "",
             desc: "",
             ph: "",
-            stock: ""
+            stock: "",
+            origin: ""
           }
         },
         footer: {
@@ -5673,7 +5710,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       };
     }
   }),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["fetchFoods", "fetchDrinks", "fetchSnacks", "rebootStock"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart"])), {}, {
     fetchIfNotLoaded: function () {
       var _fetchIfNotLoaded = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(product) {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -5762,6 +5799,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return setCategory;
     }(),
     toggleModalProduct: function toggleModalProduct(id) {
+      var _this2 = this;
       this.product = this.searchProductById(id);
       this.modalData.header.data.title = this.product.name;
       this.modalData.body.data.desc = this.product.desc;
@@ -5770,9 +5808,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.modalData.body.data.stock = this.product.stock;
       this.modalData.footer.data.id = this.product.id;
       this.modalData.footer.data.stock = this.product.stock;
+      this.modalData.footer.data.origin = this.product.origin;
       console.log("toggling modal with product id: ".concat(id));
       this.modalState = !this.modalState;
       $("#" + this.modalId).modal("toggle");
+      $("#" + this.modalId).on("hidden.bs.modal", function () {
+        _this2.rebootStock({
+          id: id
+        });
+      });
     },
     wrapAllProducts: function () {
       var _wrapAllProducts = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -5966,30 +6010,77 @@ var render = function render() {
       id: "hint-btn-chevron-back"
     }
   }, [_vm._v("Kembali ke Menu")])])]), _vm._v(" "), _c("div", {
-    staticClass: "container px-3",
+    staticClass: "container px-3"
+  }, [_c("h2", [_vm._v("Keranjang Pesanan")]), _vm._v(" "), _c("div", {
+    staticClass: "container-sm",
     staticStyle: {
       "max-height": "500px !important",
       overflow: "hidden auto"
     }
-  }, [_c("h2", [_vm._v("Keranjang Pesanan")]), _vm._v(" "), _c("div", {
-    staticClass: "container-sm"
   }, [_c("table", {
     staticClass: "mt-3 table table-striped h-100"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", [_vm._l(_vm.cart.products, function (item, id) {
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", [_vm._l(_vm.flatCart, function (item, id) {
     return _c("tr", {
       key: id
-    }, [_c("td", [_c("p", [_vm._v(_vm._s(item.name))]), _vm._v(" "), _vm._l(item.request, function (qty, req) {
-      return _c("small", {
-        key: req,
-        staticClass: "text-muted",
-        staticStyle: {}
-      }, [_vm._v("\n                                " + _vm._s(req ? req + " - " : "") + _vm._s(qty) + " x\n                                " + _vm._s(item.price)), _c("br")]);
-    })], 2), _vm._v(" "), _c("td", {
+    }, [_c("td", {
+      staticStyle: {
+        width: "50%"
+      }
+    }, [_c("p", {
+      staticClass: "fw-bolder fs-5"
+    }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c("small", {
+      staticClass: "text-muted",
+      staticStyle: {}
+    }, [_vm._v("\n                                " + _vm._s(item.request ? item.request : "tidak custom") + "\n                                - " + _vm._s(item.qty) + " x " + _vm._s(item.price)), _c("br")])]), _vm._v(" "), _c("td", {
       staticClass: "fw-bold",
       staticStyle: {
-        "vertical-align": "middle"
+        "vertical-align": "middle",
+        width: "30%"
       }
-    }, [_vm._v("\n                            " + _vm._s(item.total) + "\n                        ")])]);
+    }, [_vm._v("\n                            " + _vm._s(item.price * item.qty) + "\n                        ")]), _vm._v(" "), _c("td", {
+      staticClass: "d-flex flex-wrap pe-0 h-100",
+      staticStyle: {
+        "vertical-align": "middle"
+      },
+      attrs: {
+        id: "buttons"
+      }
+    }, [_c("button", {
+      staticClass: "btn btn-outline-danger w-100 mb-2"
+    }, [_c("svg", {
+      staticClass: "bi bi-bag-dash",
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "16",
+        height: "16",
+        fill: "currentColor",
+        viewBox: "0 0 16 16"
+      }
+    }, [_c("path", {
+      attrs: {
+        "fill-rule": "evenodd",
+        d: "M5.5 10a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"
+      }
+    }), _vm._v(" "), _c("path", {
+      attrs: {
+        d: "M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"
+      }
+    })])]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger w-100"
+    }, [_c("svg", {
+      staticClass: "bi bi-trash3",
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "16",
+        height: "16",
+        fill: "currentColor",
+        viewBox: "0 0 16 16"
+      }
+    }, [_c("path", {
+      attrs: {
+        d: "M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+      }
+    })])])])]);
   }), _vm._v(" "), _c("tr", [_c("td", {
     staticClass: "text-end",
     attrs: {
@@ -5997,9 +6088,10 @@ var render = function render() {
     }
   }, [_vm._v("Total")]), _vm._v(" "), _c("th", {
     attrs: {
+      colspan: "2",
       scope: "col"
     }
-  }, [_vm._v("Rp. " + _vm._s(_vm.cart.total))])])], 2)])])])], 1);
+  }, [_vm._v("\n                            Rp. " + _vm._s(_vm.cart.total) + "\n                        ")])])], 2)])])])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -6017,7 +6109,11 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Price")])])]);
+  }, [_vm._v("Price")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("#")])])]);
 }];
 render._withStripped = true;
 
@@ -6327,8 +6423,7 @@ var render = function render() {
     staticClass: "h-100 d-block mx-auto text-center form-control",
     attrs: {
       type: "number",
-      max: _vm.data.stock,
-      min: "0"
+      readonly: ""
     },
     domProps: {
       value: _vm.qty
@@ -6342,7 +6437,7 @@ var render = function render() {
   }), _vm._v(" "), _c("button", {
     staticClass: "btn btn-secondary",
     attrs: {
-      disabled: _vm.qty >= _vm.data.stock
+      disabled: _vm.qty >= _vm.data.origin
     },
     on: {
       click: _vm.add
@@ -6356,7 +6451,7 @@ var render = function render() {
     },
     attrs: {
       "data-bs-dismiss": "modal",
-      disabled: _vm.data.stock <= 0 || _vm.qty > _vm.data.stock || _vm.qty <= 0
+      disabled: _vm.qty > _vm.data.origin || _vm.qty <= 0
     },
     on: {
       click: _vm.reduceStock
@@ -7175,11 +7270,21 @@ var modifyStock = function modifyStock(_ref7, payload) {
   var commit = _ref7.commit;
   commit("modifyStock", payload);
 };
+var modifyOrigin = function modifyOrigin(_ref8, payload) {
+  var commit = _ref8.commit;
+  commit("modifyOrigin", payload);
+};
+var rebootStock = function rebootStock(_ref9, payload) {
+  var commit = _ref9.commit;
+  commit("rebootStock", payload);
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   fetchFoods: fetchFoods,
   fetchDrinks: fetchDrinks,
   fetchSnacks: fetchSnacks,
-  modifyStock: modifyStock
+  modifyStock: modifyStock,
+  modifyOrigin: modifyOrigin,
+  rebootStock: rebootStock
 });
 
 /***/ }),
@@ -7288,33 +7393,85 @@ var setSnacks = function setSnacks(state, payload) {
   state.snacks = payload;
   console.log("snacks mutated");
 };
+
+// Changes based on origin
 var modifyStock = function modifyStock(state, payload) {
   console.log("modify stock requested");
   if (payload.id[0] === "f") {
     for (var i = 0; i < state.foods.total; i++) if (state.foods.items[i].id === payload.id) {
-      state.foods.items[i].stock -= payload.number;
+      state.foods.items[i].stock = state.foods.items[i].origin - payload.number;
       break;
     }
   } else if (payload.id[0] === "d") {
     for (var _i = 0; _i < state.drinks.total; _i++) if (state.drinks.items[_i].id === payload.id) {
-      state.drinks.items[_i].stock -= payload.number;
+      state.drinks.items[_i].stock = state.drinks.items[_i].origin - payload.number;
       break;
     }
   } else if (payload.id[0] === "s") {
     for (var _i2 = 0; _i2 < state.snacks.total; _i2++) if (state.snacks.items[_i2].id === payload.id) {
-      state.snacks.items[_i2].stock -= payload.number;
+      state.snacks.items[_i2].stock = state.snacks.items[_i2].origin - payload.number;
       break;
     }
   } else {
     console.log("[MUTATION ERROR] ID NOT FOUND on modifyStock");
   }
-  console.log("modifiy stock ended");
+  console.log("modify stock ended");
+};
+
+// Only be executed if user has added product to cart OR product has been ordered (by generating QRcode)
+var modifyOrigin = function modifyOrigin(state, payload) {
+  console.log("modify origin requested");
+  if (payload.id[0] === "f") {
+    for (var i = 0; i < state.foods.total; i++) if (state.foods.items[i].id === payload.id) {
+      state.foods.items[i].origin = state.foods.items[i].stock;
+      break;
+    }
+  } else if (payload.id[0] === "d") {
+    for (var _i3 = 0; _i3 < state.drinks.total; _i3++) if (state.drinks.items[_i3].id === payload.id) {
+      state.drinks.items[_i3].origin = state.drinks.items[_i3].stock;
+      break;
+    }
+  } else if (payload.id[0] === "s") {
+    for (var _i4 = 0; _i4 < state.snacks.total; _i4++) if (state.snacks.items[_i4].id === payload.id) {
+      state.snacks.items[_i4].origin = state.snacks.items[_i4].stock;
+      break;
+    }
+  } else {
+    console.log("[MUTATION ERROR] ID NOT FOUND on modifyOrigin");
+  }
+  console.log("modify origin ended");
+};
+
+// when user didnt add to cart, any change to stock will be reset to origin
+var rebootStock = function rebootStock(state, payload) {
+  console.log("reboot stock requested");
+  if (payload.id[0] === "f") {
+    for (var i = 0; i < state.foods.total; i++) if (state.foods.items[i].id === payload.id) {
+      state.foods.items[i].stock = state.foods.items[i].origin;
+      break;
+    }
+  } else if (payload.id[0] === "d") {
+    for (var _i5 = 0; _i5 < state.drinks.total; _i5++) if (state.drinks.items[_i5].id === payload.id) {
+      state.drinks.items[_i5].stock = state.drinks.items[_i5].origin;
+      break;
+    }
+  } else if (payload.id[0] === "s") {
+    for (var _i6 = 0; _i6 < state.snacks.total; _i6++) if (state.snacks.items[_i6].id === payload.id) {
+      state.snacks.items[_i6].stock = state.snacks.items[_i6].origin;
+      break;
+    }
+  } else {
+    console.log("[MUTATION ERROR] ID NOT FOUND on rebootStock");
+  }
+  console.log("reboot stock ended");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setFoods: setFoods,
   setDrinks: setDrinks,
   setSnacks: setSnacks,
-  modifyStock: modifyStock
+  modifyStock: modifyStock,
+  modifyOrigin: modifyOrigin,
+  rebootStock: rebootStock
 });
 
 /***/ }),
