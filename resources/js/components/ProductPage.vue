@@ -133,6 +133,7 @@ export default {
                         desc: "",
                         ph: "",
                         stock: "",
+                        origin: "",
                     },
                 },
                 footer: {
@@ -171,7 +172,12 @@ export default {
         },
     },
     methods: {
-        ...mapActions("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"]),
+        ...mapActions("products", [
+            "fetchFoods",
+            "fetchDrinks",
+            "fetchSnacks",
+            "rebootStock",
+        ]),
         ...mapActions("cart", ["addToCart"]),
 
         fetchIfNotLoaded: async function (product) {
@@ -218,10 +224,16 @@ export default {
 
             this.modalData.footer.data.id = this.product.id;
             this.modalData.footer.data.stock = this.product.stock;
+            this.modalData.footer.data.origin = this.product.origin;
 
             console.log(`toggling modal with product id: ${id}`);
             this.modalState = !this.modalState;
             $("#" + this.modalId).modal("toggle");
+            $("#" + this.modalId).on("hidden.bs.modal", () => {
+                this.rebootStock({
+                    id,
+                });
+            });
         },
         wrapAllProducts: async function () {
             await this.fetchIfNotLoaded("FOODS");
