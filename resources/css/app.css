@@ -1,0 +1,28 @@
+:root {
+    --primary-clr: #6478c1;
+    --primary-clr-darker: #66739f;
+
+    --clr-gray: #f5f5f5;
+}
+
+.custom-btn-primary {
+    background-color: #6478c1 !important;
+    color: white;
+}
+
+/* style the scrollbar thumb */
+*::-webkit-scrollbar-thumb {
+    /* border-radius: 10px; */
+    background-color: var(--primary-clr);
+}
+
+/* style the scrollbar thumb when hovered */
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-clr-darker);
+}
+
+/* style the scrollbar track */
+*::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}

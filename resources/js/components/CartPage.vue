@@ -1,5 +1,8 @@
 <template>
-    <div class="pt-2 pb-5">
+    <div
+        class="container-fluid px-0 vh-100 pt-2 pb-5"
+        style="max-height: 100vh; overflow: hidden"
+    >
         <router-link
             to="/"
             style="text-decoration: none; color: inherit; display: block"
@@ -24,23 +27,31 @@
                 <span id="hint-btn-chevron-back">Kembali ke Menu</span>
             </div>
         </router-link>
-        <div class="container px-3">
-            <h2>Keranjang Pesanan</h2>
+        <h2 class="px-4">Keranjang Pesanan</h2>
+        <div class="container-fluid pt-2 px-0 h-100" id="cart-container">
             <div
-                class="container-sm"
-                style="max-height: 500px !important; overflow: hidden auto"
+                class="container-sm px-3 rounded-5"
+                style="
+                    max-height: 55%vh !important;
+                    overflow: hidden auto;
+                    background: white;
+                "
             >
-                <table class="mt-3 table table-striped h-100">
-                    <thead class="table-dark position-sticky" style="top: 0">
-                        <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">#</th>
+                <table class="table table-borderless my-0">
+                    <thead
+                        class="position-sticky"
+                        style="top: 0; background: white"
+                    >
+                        <tr style="border-bottom: 2px solid #a4a4a4">
+                            <th style="width: 70%" scope="col">Product</th>
+                            <th style="width: 30%" class="text-end" scope="col">
+                                Price
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="display: block">
                         <tr v-for="(item, id) in flatCart" :key="id">
-                            <td style="width: 50%">
+                            <td style="width: 70%">
                                 <p class="fw-bolder fs-5">{{ item.name }}</p>
                                 <small class="text-muted" style="0.7rem">
                                     {{
@@ -50,62 +61,75 @@
                                     }}
                                     - {{ item.qty }} x {{ item.price }}<br />
                                 </small>
+                                <div
+                                    id="buttons-control-container"
+                                    class="d-flex justify-content-start mt-2"
+                                >
+                                    <button class="btn btn-outline-danger mb-2">
+                                        kurangi
+                                    </button>
+                                    <button class="btn btn-danger">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="16"
+                                            fill="currentColor"
+                                            class="bi bi-trash3"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path
+                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                             <td
-                                class="fw-bold"
+                                class="fw-bold text-end"
                                 style="vertical-align: middle; width: 30%"
                             >
-                                {{ item.price * item.qty }}
+                                Rp. {{ item.price * item.qty }}
                             </td>
-                            <td
-                                class="d-flex flex-wrap pe-0 h-100"
-                                style="vertical-align: middle"
-                                id="buttons"
-                            >
-                                <button
-                                    class="btn btn-outline-danger w-100 mb-2"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        class="bi bi-bag-dash"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M5.5 10a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"
-                                        />
-                                        <path
-                                            d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"
-                                        />
-                                    </svg>
-                                </button>
-                                <button class="btn btn-danger w-100">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        class="bi bi-trash3"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path
-                                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
-                                        />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-end" colspan="1">Total</td>
-                            <th colspan="2" scope="col">
-                                Rp. {{ cart.total }}
-                            </th>
                         </tr>
                     </tbody>
+                    <tfoot style="border-top: 2px solid #a4a4a4">
+                        <tr>
+                            <td style="width: 70%" class="text-end">
+                                Total &nbsp;
+                            </td>
+                            <td style="width: 30%" class="text-end fw-bolder">
+                                Rp. {{ cart.total }}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
+            </div>
+            <div
+                class="w-100 position-fixed bottom-0"
+                style="height: fit-content; background: white"
+            >
+                <div class="px-3 py-4">
+                    <label for="customer-name-input" class="form-label"
+                        >Nama Pemesan</label
+                    >
+                    <input
+                        id="customer-name-input"
+                        type="text"
+                        class="form-control"
+                        placeholder="Asep Surasep"
+                    />
+                </div>
+                <div class="d-flex" style="height: 60px">
+                    <button
+                        class="rounded-0 btn btn-outline-danger w-100"
+                        style="font-size: 0.75rem"
+                    >
+                        Kosongkan<br />Keranjang
+                    </button>
+                    <button class="rounded-0 btn custom-btn-primary w-100">
+                        Pesan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -138,11 +162,42 @@ export default {
 </script>
 
 <style>
+#cart-container {
+    background-color: #f5f5f5;
+}
 #btn-chevron-back {
     width: 24px;
     height: 24px;
 }
 #hint-btn-chevron-back {
     font-size: 1.25rem;
+}
+#buttons-control-container {
+    gap: 1rem;
+}
+#buttons-control-container > * {
+    width: fit-content;
+    height: 40px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #a4a4a4;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+tbody {
+    display: block;
+    max-height: min(50vh, 700px);
+    overflow: auto;
+}
+thead,
+tbody,
+tfoot tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* even columns width , fix width of table too*/
 }
 </style>
