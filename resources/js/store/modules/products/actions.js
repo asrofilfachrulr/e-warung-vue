@@ -15,9 +15,19 @@ const modifyStock = function ({ commit }, payload) {
     commit("modifyStock", payload);
 };
 
+const modifyOrigin = function ({ commit }, payload) {
+    commit("modifyOrigin", payload);
+};
+
+const rebootStock = function ({ commit }, payload) {
+    commit("rebootStock", payload);
+};
+
 export default {
     fetchFoods,
     fetchDrinks,
     fetchSnacks,
     modifyStock,
+    modifyOrigin,
+    rebootStock,
 };
