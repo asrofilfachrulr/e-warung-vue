@@ -4,19 +4,23 @@
         class="card"
         style="max-width: 100%"
         v-if="product.discount == 0"
-        @click="handleClick"
     >
         <div class="row g-0">
-            <div class="col-4 p-2">
+            <div class="col-4 p-2" @click="handleClick">
                 <img class="img-fluid rounded" :src="product.img" />
             </div>
             <div class="col-8">
                 <div class="card-body">
-                    <h3 class="card-title">{{ product.name }}</h3>
-                    <p class="cart-text price">Rp. {{ product.price }}</p>
+                    <h3 class="card-title" @click="handleClick">
+                        {{ product.name }}
+                    </h3>
+                    <p class="cart-text price" @click="handleClick">
+                        Rp. {{ product.price }}
+                    </p>
                     <button
                         style="padding: 0.5em 0.75em"
                         class="btn btn-outline-primary"
+                        @click="customClick"
                     >
                         Tambah
                     </button>
@@ -34,6 +38,9 @@ export default {
     methods: {
         handleClick() {
             this.$emit("productClicked", this.product.id);
+        },
+        customClick() {
+            console.log("click");
         },
     },
 };

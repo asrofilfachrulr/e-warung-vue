@@ -33,6 +33,7 @@
                 class="btn btn-primary h-100 w-100"
                 style="padding: 0.5em 0.75em"
                 @click="reduceStock"
+                data-bs-dismiss="modal"
                 v-bind:disabled="
                     data.stock <= 0 || qty > data.stock || qty <= 0
                 "
@@ -44,7 +45,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
     data: function () {
         return {
@@ -62,7 +62,6 @@ export default {
         },
     },
     methods: {
-        ...mapActions("products", ["modifyStock"]),
         setDefault() {
             this.qty = this.data.stock >= 0 ? 1 : 0;
         },
@@ -74,10 +73,8 @@ export default {
         },
         reduceStock: function () {
             console.log(`stock would be modified by ${this.qty}`);
-            this.modifyStock({
-                id: this.data.id,
-                number: this.qty,
-            });
+            this.$emit("data-callback-footer", this.qty);
+            this.$emit("submit-action");
         },
         isStockEmpty() {
             return this.data.stock <= 0 ? "true" : "false";

@@ -60,6 +60,7 @@
             :body="modalData.body"
             :footer="modalData.footer"
             :state="modalState"
+            @submit-action="handleProductModalSubmit"
         ></centered-modal>
         <stock-monitor
             :id="'monitorModalId'"
@@ -99,10 +100,10 @@ import ProdModalHeaderVue from "./ModalComponent/ProductPage/ProdModalHeader.vue
 export default {
     data: function () {
         return {
-            allProducts: {},
-            products: {},
+            allProducts: {}, // for wrapping to monitor modal -- soon be deleted
+            products: {}, // current product caegory
             currentTitle: {},
-            product: {},
+            product: {}, // selected product on toggling modal
             titles: {
                 foods: {
                     tile: "Paling Banyak Dibeli",
@@ -160,7 +161,6 @@ export default {
             drinks: "getDrinks",
             snacks: "getSnacks",
         }),
-        ...mapActions("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"]),
         searchProductById() {
             return (id) => {
                 for (let i = 0; i < this.products.total; i++)
@@ -171,21 +171,24 @@ export default {
         },
     },
     methods: {
+        ...mapActions("products", ["fetchFoods", "fetchDrinks", "fetchSnacks"]),
+        ...mapActions("cart", ["addToCart"]),
+
         fetchIfNotLoaded: async function (product) {
             if (product === "FOODS") {
                 if (Object.keys(this.foods).length === 0) {
                     console.log("trying fetch data foods");
-                    await this.fetchFoods;
+                    await this.fetchFoods();
                 }
             } else if (product === "DRINKS") {
                 if (Object.keys(this.drinks).length === 0) {
                     console.log("trying fetch data drinks");
-                    await this.fetchDrinks;
+                    await this.fetchDrinks();
                 }
             } else if (product === "SNACKS") {
                 if (Object.keys(this.snacks).length === 0) {
                     console.log("trying fetch data snacks");
-                    await this.fetchSnacks;
+                    await this.fetchSnacks();
                 }
             }
         },
@@ -230,6 +233,16 @@ export default {
                 drinks: this.drinks,
                 snacks: this.snacks,
             });
+        },
+        handleProductModalSubmit(data) {
+            const payload = {
+                id: this.product.id,
+                req: data.body.toString(),
+                name: this.product.name,
+                price: this.product.price - this.product.discount,
+                qty: Number(data.footer),
+            };
+            this.addToCart(payload);
         },
     },
     mounted: async function () {

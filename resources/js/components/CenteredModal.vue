@@ -10,8 +10,10 @@
                 </div>
                 <div class="modal-body" style="padding: 0">
                     <component
+                        :state="state"
                         :is="body.component"
                         :data="body.data"
+                        @data-callback-body="handleBodyCallback"
                     ></component>
                 </div>
                 <div class="modal-footer" style="padding: 0">
@@ -19,6 +21,8 @@
                         :state="state"
                         :is="footer.component"
                         :data="footer.data"
+                        @data-callback-footer="handleFooterCallback"
+                        @submit-action="handleSubmit"
                     ></component>
                 </div>
             </div>
@@ -28,6 +32,12 @@
 
 <script>
 export default {
+    data: function () {
+        return {
+            dataCallbackBody: "",
+            dataCallbackFooter: 0,
+        };
+    },
     props: {
         id: {
             type: String,
@@ -48,6 +58,20 @@ export default {
         state: {
             type: Boolean,
             required: true,
+        },
+    },
+    methods: {
+        handleBodyCallback(data) {
+            this.dataCallbackBody = data;
+        },
+        handleFooterCallback(data) {
+            this.dataCallbackFooter = data;
+        },
+        handleSubmit() {
+            this.$emit("submit-action", {
+                body: this.dataCallbackBody,
+                footer: this.dataCallbackFooter,
+            });
         },
     },
 };
