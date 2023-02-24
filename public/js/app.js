@@ -5315,6 +5315,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5322,10 +5325,71 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("cart", {
-    cart: "getCart"
-  })), {}, {
-    flatCart: function flatCart() {
+  data: function data() {
+    return {
+      flatCart: []
+    };
+  },
+  watch: {
+    cart: {
+      handler: function handler() {
+        console.log("CART HAS BEEN CHANGED");
+        this.flatCart = this.flattingCart();
+      },
+      deep: true
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+    cart: "cart/getCart"
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("products", {
+    foodsSize: "getFoodsSize",
+    drinksSize: "getDrinksSize",
+    snacksSize: "getSnacksSize"
+  })),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("cart", ["addToCart", "modifyCart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("products", ["modifyStock", "modifyOrigin", "fetchFoods", "fetchDrinks", "fetchSnacks"])), {}, {
+    // Control Steps
+    // 1. modify cart item
+    // 2. modify stock
+    // 3. modify origin
+    reduceQtyItem: function reduceQtyItem(_ref) {
+      var id = _ref.id,
+        request = _ref.request;
+      console.log("invoke reduce on product: '".concat(id, "' with request: '").concat(request, "'"));
+      this.modifyCart({
+        id: id,
+        req: request,
+        qty: 1 //default is decreasing
+      });
+
+      this.modifyStock({
+        id: id,
+        number: -1 // modifyStock is decreasing by default, so using negative will do otherwise
+      });
+
+      this.modifyOrigin({
+        id: id
+      });
+    },
+    // remove item can be defined as re-stsock, so just re-add the qty on item to stock again
+    removeItem: function removeItem(_ref2) {
+      var id = _ref2.id,
+        qty = _ref2.qty,
+        request = _ref2.request;
+      console.log("invoke remove on product: '".concat(id, "' with request: '").concat(request, "'"));
+      this.modifyCart({
+        id: id,
+        req: request,
+        qty: qty
+      });
+      this.modifyStock({
+        id: id,
+        number: -1 * qty
+      });
+      this.modifyOrigin({
+        id: id
+      });
+    },
+    flattingCart: function flattingCart() {
       var _this = this;
       // [{id, ..., req, qty}]
       var flattenCart = [];
@@ -5340,8 +5404,96 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         });
       });
       return flattenCart;
+    },
+    generateDummyCartItem: function generateDummyCartItem() {
+      var _this2 = this;
+      console.log("generating dummy cart item");
+
+      // flow of adding cart item
+      // reduce stock
+      // adjust origin
+      // add to cart
+      var cartItems = [{
+        id: "f-01",
+        req: "pedes",
+        name: "Nasi Ayam Bakar Serundeng",
+        price: 14000,
+        qty: 2
+      }, {
+        id: "f-01",
+        req: "",
+        name: "Nasi Ayam Bakar Serundeng",
+        price: 14000,
+        qty: 1
+      }, {
+        id: "f-04",
+        req: "",
+        name: "Nasi Pecel Komplit",
+        price: 12500,
+        qty: 4
+      }, {
+        id: "f-04",
+        req: "Ga pake peyek, ganti kerupuk ikan aja",
+        name: "Nasi Pecel Komplit",
+        price: 12500,
+        qty: 6
+      }, {
+        id: "d-07",
+        req: "",
+        name: "Kopi Susu",
+        price: 6000,
+        qty: 4
+      }];
+      cartItems.forEach(function (item) {
+        _this2.modifyStock({
+          id: item.id,
+          number: item.qty
+        });
+        _this2.modifyOrigin({
+          id: item.id
+        });
+        _this2.addToCart(item);
+      });
+      console.log("dummy cart itm generated");
     }
-  })
+  }),
+  mounted: function mounted() {
+    var _this3 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            console.log("mounted cart component");
+            // ensure all stock information is loaded
+            if (!(_this3.foodsSize === 0)) {
+              _context.next = 4;
+              break;
+            }
+            _context.next = 4;
+            return _this3.fetchFoods();
+          case 4:
+            if (!(_this3.drinksSize === 0)) {
+              _context.next = 7;
+              break;
+            }
+            _context.next = 7;
+            return _this3.fetchDrinks();
+          case 7:
+            if (!(_this3.snacksSize === 0)) {
+              _context.next = 10;
+              break;
+            }
+            _context.next = 10;
+            return _this3.fetchSnacks();
+          case 10:
+            _this3.flatCart = _this3.flattingCart();
+          case 11:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }))();
+  }
 });
 
 /***/ }),
@@ -5553,12 +5705,21 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     reduce: function reduce() {
       this.qty -= 1;
     },
+    /*
+     *   Flow adding to cart:
+     *
+     *   1. User plays with {stock} (model: qty) by decreasing/increasing qty with button control
+     *   2. Any {stock} changes on step 1 watched and applied to vuex
+     *   3. Only if user click "PESAN", the {origin} will be set equal to stock
+     *   4. If user close the Modal without clicking the "PESAN", stock will be      readjusted to origin again
+     *
+     */
     reduceStock: function reduceStock() {
       console.log("stock would be modified by ".concat(this.qty));
-      this.$emit("data-callback-footer", this.qty);
-      this.$emit("submit-action");
+      this.$emit("data-callback-footer", this.qty); // trigger changes on parent pool
+      this.$emit("submit-action"); // trigger addToCart using the Modal Pool
 
-      // changes the origin
+      // changes the origin to equal to stock
       this.modifyOrigin({
         id: this.data.id
       });
@@ -5570,6 +5731,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   watch: {
     qty: function qty() {
       this.modifyStock({
+        // use stock as temporary quantity that can be rebooted to origin
         id: this.data.id,
         number: this.qty
       });
@@ -5696,8 +5858,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)("products", {
     foods: "getFoods",
+    foodsSize: "getFoodsSize",
     drinks: "getDrinks",
-    snacks: "getSnacks"
+    drinksSize: "getDrinksSize",
+    snacks: "getSnacks",
+    snacksSize: "getSnacksSize"
   })), {}, {
     searchProductById: function searchProductById() {
       var _this = this;
@@ -5714,48 +5879,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (!(product === "FOODS")) {
-                _context.next = 7;
-                break;
-              }
-              if (!(Object.keys(this.foods).length === 0)) {
+              if (!(product === "FOODS" && this.foodsSize === 0)) {
                 _context.next = 5;
                 break;
               }
-              console.log("trying fetch data foods");
-              _context.next = 5;
+              _context.next = 3;
               return this.fetchFoods();
+            case 3:
+              _context.next = 13;
+              break;
             case 5:
-              _context.next = 19;
-              break;
-            case 7:
-              if (!(product === "DRINKS")) {
-                _context.next = 14;
+              if (!(product === "DRINKS" && this.drinksSize === 0)) {
+                _context.next = 10;
                 break;
               }
-              if (!(Object.keys(this.drinks).length === 0)) {
-                _context.next = 12;
-                break;
-              }
-              console.log("trying fetch data drinks");
-              _context.next = 12;
+              _context.next = 8;
               return this.fetchDrinks();
-            case 12:
-              _context.next = 19;
+            case 8:
+              _context.next = 13;
               break;
-            case 14:
-              if (!(product === "SNACKS")) {
-                _context.next = 19;
+            case 10:
+              if (!(product === "SNACKS" && this.snacksSize === 0)) {
+                _context.next = 13;
                 break;
               }
-              if (!(Object.keys(this.snacks).length === 0)) {
-                _context.next = 19;
-                break;
-              }
-              console.log("trying fetch data snacks");
-              _context.next = 19;
+              _context.next = 13;
               return this.fetchSnacks();
-            case 19:
+            case 13:
             case "end":
               return _context.stop();
           }
@@ -5771,10 +5921,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              console.log("trying fetching data");
-              _context2.next = 3;
+              _context2.next = 2;
               return this.fetchIfNotLoaded(product);
-            case 3:
+            case 2:
               if (product === "FOODS") {
                 this.products = this.foods;
                 this.currentTitle = this.titles.foods;
@@ -5785,7 +5934,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 this.products = this.snacks;
                 this.currentTitle = this.titles.snacks;
               }
-            case 4:
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -5832,7 +5981,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("mounted");
+            console.log("mounted product page");
             _context3.next = 3;
             return this.setCategory("FOODS");
           case 3:
@@ -5949,7 +6098,16 @@ var render = function render() {
       "max-height": "100vh",
       overflow: "hidden"
     }
-  }, [_c("router-link", {
+  }, [_c("button", {
+    staticClass: "btn btn-success position-fixed",
+    staticStyle: {
+      top: "5px",
+      right: "5px"
+    },
+    on: {
+      click: _vm.generateDummyCartItem
+    }
+  }, [_vm._v("\n        Generate\n    ")]), _vm._v(" "), _c("router-link", {
     staticStyle: {
       "text-decoration": "none",
       color: "inherit",
@@ -6019,9 +6177,19 @@ var render = function render() {
         id: "buttons-control-container"
       }
     }, [_c("button", {
-      staticClass: "btn btn-outline-danger mb-2"
+      staticClass: "btn btn-outline-danger mb-2",
+      on: {
+        click: function click($event) {
+          return _vm.reduceQtyItem(item);
+        }
+      }
     }, [_vm._v("\n                                    kurangi\n                                ")]), _vm._v(" "), _c("button", {
-      staticClass: "btn btn-danger"
+      staticClass: "btn btn-danger",
+      on: {
+        click: function click($event) {
+          return _vm.removeItem(item);
+        }
+      }
     }, [_c("svg", {
       staticClass: "bi bi-trash3",
       attrs: {
@@ -6095,6 +6263,9 @@ var staticRenderFns = [function () {
     staticStyle: {
       height: "fit-content",
       background: "white"
+    },
+    attrs: {
+      id: "cart-bottom-container"
     }
   }, [_c("div", {
     staticClass: "px-3 py-4"
@@ -6454,7 +6625,7 @@ var render = function render() {
   }, [_vm._v("\n                +\n            ")])])]), _vm._v(" "), _c("div", {
     staticClass: "col-3 px-0"
   }, [_c("button", {
-    staticClass: "btn btn-primary h-100 w-100",
+    staticClass: "btn custom-btn-primary h-100 w-100",
     staticStyle: {
       padding: "0.5em 0.75em"
     },
@@ -6614,7 +6785,7 @@ var render = function render() {
       }
     }
   }, [_c("span", [_vm._v("Camilan")])])]), _vm._v(" "), _c("div", {
-    staticClass: "container-fluid",
+    staticClass: "container-sm",
     staticStyle: {
       overflow: "hidden auto",
       "background-color": "var(--clr-gray)"
@@ -6671,7 +6842,9 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _vm.product.discount == 0 ? _c("div", {
+  return _c("div", {
+    staticClass: "col-md-6"
+  }, [_vm.product.discount == 0 ? _c("div", {
     staticClass: "card",
     staticStyle: {
       "max-width": "100%"
@@ -6700,20 +6873,20 @@ var render = function render() {
     on: {
       click: _vm.handleClick
     }
-  }, [_vm._v("\n                    " + _vm._s(_vm.product.name) + "\n                ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                        " + _vm._s(_vm.product.name) + "\n                    ")]), _vm._v(" "), _c("p", {
     staticClass: "cart-text price",
     on: {
       click: _vm.handleClick
     }
-  }, [_vm._v("\n                    Rp. " + _vm._s(_vm.product.price) + "\n                ")]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-outline-primary",
+  }, [_vm._v("\n                        Rp. " + _vm._s(_vm.product.price) + "\n                    ")]), _vm._v(" "), _c("button", {
+    staticClass: "btn custom-btn-primary-outline",
     staticStyle: {
       padding: "0.5em 0.75em"
     },
     on: {
       click: _vm.customClick
     }
-  }, [_vm._v("\n                    Tambah\n                ")])])])])]) : _vm._e();
+  }, [_vm._v("\n                        Tambah\n                    ")])])])])]) : _vm._e()]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -6757,13 +6930,12 @@ var render = function render() {
       }
     });
   }), 1) : _vm._e()]), _vm._v(" "), _vm.productType == "row" ? _c("div", {
-    staticClass: "d-flex flex-column",
-    staticStyle: {
-      gap: "1rem"
-    }
+    staticClass: "container-sm"
   }, [_c("h2", {
     staticClass: "mb-2"
-  }, [_vm._v("\n            " + _vm._s(_vm.title.row) + "\n        ")]), _vm._v(" "), _vm._l(_vm.products.items, function (product, index) {
+  }, [_vm._v("\n            " + _vm._s(_vm.title.row) + "\n        ")]), _vm._v(" "), _c("div", {
+    staticClass: "row g-2"
+  }, _vm._l(_vm.products.items, function (product, index) {
     return _c("product-row", {
       key: index,
       attrs: {
@@ -6773,7 +6945,7 @@ var render = function render() {
         productClicked: _vm.triggerToParent
       }
     });
-  })], 2) : _vm._e()]);
+  }), 1)]) : _vm._e()]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -7007,7 +7179,7 @@ var addToCart = function addToCart(_ref, payload) {
 };
 var modifyCart = function modifyCart(_ref2, payload) {
   var commit = _ref2.commit;
-  commit("modifyItem", payload);
+  commit("modifyCart", payload);
 };
 var resetCart = function resetCart(_ref3) {
   var commit = _ref3.commit;
@@ -7140,12 +7312,14 @@ __webpack_require__.r(__webpack_exports__);
 
 var helper = {
   calculateItemTotal: function calculateItemTotal(request, price) {
+    console.log("calculating new total each item..");
     var qty = Object.values(request).reduce(function (s, v) {
       return s + v;
     });
     return price * qty;
   },
   calculateCartTotal: function calculateCartTotal(products) {
+    console.log("calculating total cart");
     return Object.values(products).map(function (it) {
       return it["total"];
     }).reduce(function (s, v) {
@@ -7159,12 +7333,11 @@ var addItem = function addItem(state, _ref) {
     name = _ref.name,
     price = _ref.price,
     qty = _ref.qty;
-  console.log("add item mutation requested");
+  console.log("add item to cart..");
   if (state.cart["products"].hasOwnProperty(id)) {
     if (state.cart["products"][id]["request"].hasOwnProperty(req)) state.cart["products"][id]["request"][req] += qty;else state.cart["products"][id]["request"][req] = qty;
 
     // calculate new total based on total qty x price
-    console.log("calculating new total each item..");
     state.cart["products"][id]["total"] = helper.calculateItemTotal(state.cart["products"][id]["request"], price);
   } else {
     state.cart["products"][id] = {
@@ -7175,12 +7348,38 @@ var addItem = function addItem(state, _ref) {
     };
     state.cart["products"][id]["request"][req] = qty;
   }
-  console.log("calculating total cart");
   state.cart["total"] = helper.calculateCartTotal(state.cart["products"]);
   console.log("an item added");
 };
+
+// Default for decreasing qty
+var modifyCart = function modifyCart(state, _ref2) {
+  var id = _ref2.id,
+    req = _ref2.req,
+    qty = _ref2.qty;
+  console.log("begin to modify cart");
+  if (!state.cart.products[id]) console.log("PRODUCT ID: '".concat(id, "' NOT FOUND ON CART ITEM"));else {
+    if (state.cart.products[id].request[req] == undefined) console.log("REQUEST: '".concat(req, "' NOT FOUND ON CART ITEM"));else {
+      state.cart.products[id].request[req] -= qty;
+
+      // delete if key on request if qty = 0
+      if (state.cart.products[id].request[req] == 0) delete state.cart.products[id].request[req];
+      if (Object.keys(state.cart.products[id].request).length == 0)
+        // delete if there is no request left
+        delete state.cart.products[id];
+        // recalculate item total
+      else state.cart.products[id].total = helper.calculateItemTotal(state.cart.products[id].request, state.cart.products[id].price);
+
+      //recalculate cart total
+
+      state.cart.total = Object.keys(state.cart.products).length != 0 ? helper.calculateCartTotal(state.cart.products) : 0;
+    }
+  }
+  console.log("modify cart ended");
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  addItem: addItem
+  addItem: addItem,
+  modifyCart: modifyCart
 });
 
 /***/ }),
@@ -7225,12 +7424,13 @@ var fetchFoods = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           commit = _ref.commit;
-          _context.next = 3;
+          console.log("dispatch fetchFoods...");
+          _context.next = 4;
           return axios.get("api/list-menu?category=food");
-        case 3:
+        case 4:
           response = _context.sent;
           commit("setFoods", response.data);
-        case 5:
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -7247,12 +7447,13 @@ var fetchDrinks = /*#__PURE__*/function () {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           commit = _ref3.commit;
-          _context2.next = 3;
+          console.log("dispatch fetchDrinks...");
+          _context2.next = 4;
           return axios.get("api/list-menu?category=drink");
-        case 3:
+        case 4:
           response = _context2.sent;
           commit("setDrinks", response.data);
-        case 5:
+        case 6:
         case "end":
           return _context2.stop();
       }
@@ -7269,12 +7470,13 @@ var fetchSnacks = /*#__PURE__*/function () {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           commit = _ref5.commit;
-          _context3.next = 3;
+          console.log("dispatch fetchSnacks...");
+          _context3.next = 4;
           return axios.get("api/list-menu?category=snack");
-        case 3:
+        case 4:
           response = _context3.sent;
           commit("setSnacks", response.data);
-        case 5:
+        case 6:
         case "end":
           return _context3.stop();
       }
@@ -7284,22 +7486,55 @@ var fetchSnacks = /*#__PURE__*/function () {
     return _ref6.apply(this, arguments);
   };
 }();
-var modifyStock = function modifyStock(_ref7, payload) {
-  var commit = _ref7.commit;
+var fetchAllProducts = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(_ref7) {
+    var commit;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          commit = _ref7.commit;
+          console.log("fetching all products requested");
+          _context4.next = 4;
+          return fetchFoods({
+            commit: commit
+          });
+        case 4:
+          _context4.next = 6;
+          return fetchDrinks({
+            commit: commit
+          });
+        case 6:
+          _context4.next = 8;
+          return fetchSnacks({
+            commit: commit
+          });
+        case 8:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  }));
+  return function fetchAllProducts(_x4) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+var modifyStock = function modifyStock(_ref9, payload) {
+  var commit = _ref9.commit;
   commit("modifyStock", payload);
 };
-var modifyOrigin = function modifyOrigin(_ref8, payload) {
-  var commit = _ref8.commit;
+var modifyOrigin = function modifyOrigin(_ref10, payload) {
+  var commit = _ref10.commit;
   commit("modifyOrigin", payload);
 };
-var rebootStock = function rebootStock(_ref9, payload) {
-  var commit = _ref9.commit;
+var rebootStock = function rebootStock(_ref11, payload) {
+  var commit = _ref11.commit;
   commit("rebootStock", payload);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   fetchFoods: fetchFoods,
   fetchDrinks: fetchDrinks,
   fetchSnacks: fetchSnacks,
+  fetchAllProducts: fetchAllProducts,
   modifyStock: modifyStock,
   modifyOrigin: modifyOrigin,
   rebootStock: rebootStock
@@ -7350,10 +7585,22 @@ var getDrinks = function getDrinks(state) {
 var getSnacks = function getSnacks(state) {
   return state.snacks;
 };
+var getFoodsSize = function getFoodsSize(state) {
+  return state.foods.total || 0;
+};
+var getDrinksSize = function getDrinksSize(state) {
+  return state.drinks.total || 0;
+};
+var getSnacksSize = function getSnacksSize(state) {
+  return state.snacks.total || 0;
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   getFoods: getFoods,
   getDrinks: getDrinks,
-  getSnacks: getSnacks
+  getSnacks: getSnacks,
+  getFoodsSize: getFoodsSize,
+  getDrinksSize: getDrinksSize,
+  getSnacksSize: getSnacksSize
 });
 
 /***/ }),
@@ -12759,7 +13006,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#cart-container {\r\n    background-color: #f5f5f5;\n}\n#btn-chevron-back {\r\n    width: 24px;\r\n    height: 24px;\n}\n#hint-btn-chevron-back {\r\n    font-size: 1.25rem;\n}\n#buttons-control-container {\r\n    gap: 1rem;\n}\n#buttons-control-container > * {\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n    height: 40px;\n}\ntable tbody tr {\r\n    border-bottom: 1px solid #a4a4a4;\n}\ntable tbody tr:last-of-type {\r\n    border-bottom: none;\n}\ntbody {\r\n    display: block;\r\n    max-height: min(50vh, 700px);\r\n    overflow: auto;\n}\nthead,\r\ntbody,\r\ntfoot tr {\r\n    display: table;\r\n    width: 100%;\r\n    table-layout: fixed; /* even columns width , fix width of table too*/\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#cart-container {\r\n    background-color: #f5f5f5;\n}\n#cart-bottom-container {\r\n    display: none;\n}\n#btn-chevron-back {\r\n    width: 24px;\r\n    height: 24px;\n}\n#hint-btn-chevron-back {\r\n    font-size: 1.25rem;\n}\n#buttons-control-container {\r\n    gap: 1rem;\n}\n#buttons-control-container > * {\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n    height: 40px;\n}\ntable tbody tr {\r\n    border-bottom: 1px solid #a4a4a4;\n}\ntable tbody tr:last-of-type {\r\n    border-bottom: none;\n}\ntbody {\r\n    display: block;\r\n    max-height: min(70vh, 700px);\r\n    overflow: auto;\n}\nthead,\r\ntbody,\r\ntfoot tr {\r\n    display: table;\r\n    width: 100%;\r\n    table-layout: fixed; /* even columns width , fix width of table too*/\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12855,7 +13102,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#product-tile img {\r\n    width: 100%;\r\n    max-height: 150px;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\r\n    -o-object-position: center;\r\n       object-position: center;\n}\n#product-tile .card-title {\r\n    font-weight: 400;\r\n    font-size: 0.9rem;\n}\n#product-tile .line {\r\n    position: relative;\r\n    display: inline;\n}\n#product-tile .line::before {\r\n    position: absolute;\r\n    content: \"\";\r\n    width: 100%;\r\n    height: 75%;\r\n    border-bottom: 3px solid rgba(255, 0, 0, 0.65);\n}\n#product-tile .price {\r\n    font-size: 0.85rem;\r\n    color: black;\n}\n#product-tile .discount-price {\r\n    font-size: 1.1rem;\r\n    font-weight: 600;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card {\r\n    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));\n}\n#product-tile img {\r\n    width: 100%;\r\n    max-height: 150px;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\r\n    -o-object-position: center;\r\n       object-position: center;\n}\n#product-tile .card-title {\r\n    font-weight: 400;\r\n    font-size: 0.9rem;\n}\n#product-tile .line {\r\n    position: relative;\r\n    display: inline;\n}\n#product-tile .line::before {\r\n    position: absolute;\r\n    content: \"\";\r\n    width: 100%;\r\n    height: 75%;\r\n    border-bottom: 3px solid rgba(255, 0, 0, 0.65);\n}\n#product-tile .price {\r\n    font-size: 0.85rem;\r\n    color: black;\n}\n#product-tile .discount-price {\r\n    font-size: 1.1rem;\r\n    font-weight: 600;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

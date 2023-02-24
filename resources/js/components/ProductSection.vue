@@ -17,20 +17,18 @@
                 ></product-tile>
             </div>
         </div>
-        <div
-            class="d-flex flex-column"
-            style="gap: 1rem"
-            v-if="productType == 'row'"
-        >
+        <div class="container-sm" v-if="productType == 'row'">
             <h2 class="mb-2">
                 {{ title.row }}
             </h2>
-            <product-row
-                v-for="(product, index) in products.items"
-                :product="product"
-                :key="index"
-                @productClicked="triggerToParent"
-            ></product-row>
+            <div class="row g-2">
+                <product-row
+                    v-for="(product, index) in products.items"
+                    :product="product"
+                    :key="index"
+                    @productClicked="triggerToParent"
+                ></product-row>
+            </div>
         </div>
     </div>
 </template>

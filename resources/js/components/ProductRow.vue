@@ -1,29 +1,31 @@
 <template>
-    <div
-        id="product-row"
-        class="card"
-        style="max-width: 100%"
-        v-if="product.discount == 0"
-    >
-        <div class="row g-0">
-            <div class="col-4 p-2" @click="handleClick">
-                <img class="img-fluid rounded" :src="product.img" />
-            </div>
-            <div class="col-8">
-                <div class="card-body">
-                    <h3 class="card-title" @click="handleClick">
-                        {{ product.name }}
-                    </h3>
-                    <p class="cart-text price" @click="handleClick">
-                        Rp. {{ product.price }}
-                    </p>
-                    <button
-                        style="padding: 0.5em 0.75em"
-                        class="btn btn-outline-primary"
-                        @click="customClick"
-                    >
-                        Tambah
-                    </button>
+    <div class="col-md-6">
+        <div
+            id="product-row"
+            class="card"
+            style="max-width: 100%"
+            v-if="product.discount == 0"
+        >
+            <div class="row g-0">
+                <div class="col-4 p-2" @click="handleClick">
+                    <img class="img-fluid rounded" :src="product.img" />
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h3 class="card-title" @click="handleClick">
+                            {{ product.name }}
+                        </h3>
+                        <p class="cart-text price" @click="handleClick">
+                            Rp. {{ product.price }}
+                        </p>
+                        <button
+                            style="padding: 0.5em 0.75em"
+                            class="btn custom-btn-primary-outline"
+                            @click="customClick"
+                        >
+                            Tambah
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

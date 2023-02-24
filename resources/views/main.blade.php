@@ -15,6 +15,7 @@
         <style>
             body {
                 font-family: 'Inter', sans-serif !important;
+                background-color: #fefefe;
             }
             </style>
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">

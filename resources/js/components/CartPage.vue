@@ -3,6 +3,13 @@
         class="container-fluid px-0 vh-100 pt-2 pb-5"
         style="max-height: 100vh; overflow: hidden"
     >
+        <button
+            class="btn btn-success position-fixed"
+            style="top: 5px; right: 5px"
+            @click="generateDummyCartItem"
+        >
+            Generate
+        </button>
         <router-link
             to="/"
             style="text-decoration: none; color: inherit; display: block"
@@ -29,6 +36,7 @@
         </router-link>
         <h2 class="px-4">Keranjang Pesanan</h2>
         <div class="container-fluid pt-2 px-0 h-100" id="cart-container">
+            <!-- Table Container -->
             <div
                 class="container-sm px-3 rounded-5"
                 style="
@@ -65,10 +73,16 @@
                                     id="buttons-control-container"
                                     class="d-flex justify-content-start mt-2"
                                 >
-                                    <button class="btn btn-outline-danger mb-2">
+                                    <button
+                                        class="btn btn-outline-danger mb-2"
+                                        @click="reduceQtyItem(item)"
+                                    >
                                         kurangi
                                     </button>
-                                    <button class="btn btn-danger">
+                                    <button
+                                        class="btn btn-danger"
+                                        @click="removeItem(item)"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -104,7 +118,9 @@
                     </tfoot>
                 </table>
             </div>
+            <!-- Bottom Container -->
             <div
+                id="cart-bottom-container"
                 class="w-100 position-fixed bottom-0"
                 style="height: fit-content; background: white"
             >
@@ -136,11 +152,84 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
+    data: function () {
+        return {
+            flatCart: [],
+        };
+    },
+    watch: {
+        cart: {
+            handler: function () {
+                console.log("CART HAS BEEN CHANGED");
+                this.flatCart = this.flattingCart();
+            },
+            deep: true,
+        },
+    },
     computed: {
-        ...mapGetters("cart", { cart: "getCart" }),
-        flatCart() {
+        ...mapGetters({ cart: "cart/getCart" }),
+        ...mapGetters("products", {
+            foodsSize: "getFoodsSize",
+            drinksSize: "getDrinksSize",
+            snacksSize: "getSnacksSize",
+        }),
+    },
+    methods: {
+        ...mapActions("cart", ["addToCart", "modifyCart"]),
+        ...mapActions("products", [
+            "modifyStock",
+            "modifyOrigin",
+            "fetchFoods",
+            "fetchDrinks",
+            "fetchSnacks",
+        ]),
+
+        // Control Steps
+        // 1. modify cart item
+        // 2. modify stock
+        // 3. modify origin
+        reduceQtyItem({ id, request }) {
+            console.log(
+                `invoke reduce on product: '${id}' with request: '${request}'`
+            );
+
+            this.modifyCart({
+                id,
+                req: request,
+                qty: 1, //default is decreasing
+            });
+
+            this.modifyStock({
+                id,
+                number: -1, // modifyStock is decreasing by default, so using negative will do otherwise
+            });
+            this.modifyOrigin({
+                id,
+            });
+        },
+        // remove item can be defined as re-stsock, so just re-add the qty on item to stock again
+        removeItem({ id, qty, request }) {
+            console.log(
+                `invoke remove on product: '${id}' with request: '${request}'`
+            );
+
+            this.modifyCart({
+                id,
+                req: request,
+                qty,
+            });
+
+            this.modifyStock({
+                id,
+                number: -1 * qty,
+            });
+            this.modifyOrigin({
+                id,
+            });
+        },
+        flattingCart() {
             // [{id, ..., req, qty}]
             const flattenCart = [];
             Object.keys(this.cart["products"]).forEach((id) => {
@@ -157,6 +246,73 @@ export default {
             });
             return flattenCart;
         },
+        generateDummyCartItem() {
+            console.log("generating dummy cart item");
+
+            // flow of adding cart item
+            // reduce stock
+            // adjust origin
+            // add to cart
+            const cartItems = [
+                {
+                    id: "f-01",
+                    req: "pedes",
+                    name: "Nasi Ayam Bakar Serundeng",
+                    price: 14000,
+                    qty: 2,
+                },
+                {
+                    id: "f-01",
+                    req: "",
+                    name: "Nasi Ayam Bakar Serundeng",
+                    price: 14000,
+                    qty: 1,
+                },
+                {
+                    id: "f-04",
+                    req: "",
+                    name: "Nasi Pecel Komplit",
+                    price: 12500,
+                    qty: 4,
+                },
+                {
+                    id: "f-04",
+                    req: "Ga pake peyek, ganti kerupuk ikan aja",
+                    name: "Nasi Pecel Komplit",
+                    price: 12500,
+                    qty: 6,
+                },
+                {
+                    id: "d-07",
+                    req: "",
+                    name: "Kopi Susu",
+                    price: 6000,
+                    qty: 4,
+                },
+            ];
+
+            cartItems.forEach((item) => {
+                this.modifyStock({
+                    id: item.id,
+                    number: item.qty,
+                });
+
+                this.modifyOrigin({ id: item.id });
+
+                this.addToCart(item);
+            });
+            console.log("dummy cart itm generated");
+        },
+    },
+    async mounted() {
+        console.log("mounted cart component");
+        // ensure all stock information is loaded
+
+        if (this.foodsSize === 0) await this.fetchFoods();
+        if (this.drinksSize === 0) await this.fetchDrinks();
+        if (this.snacksSize === 0) await this.fetchSnacks();
+
+        this.flatCart = this.flattingCart();
     },
 };
 </script>
@@ -165,6 +321,11 @@ export default {
 #cart-container {
     background-color: #f5f5f5;
 }
+
+#cart-bottom-container {
+    display: none;
+}
+
 #btn-chevron-back {
     width: 24px;
     height: 24px;
@@ -190,7 +351,7 @@ table tbody tr:last-of-type {
 
 tbody {
     display: block;
-    max-height: min(50vh, 700px);
+    max-height: min(70vh, 700px);
     overflow: auto;
 }
 thead,

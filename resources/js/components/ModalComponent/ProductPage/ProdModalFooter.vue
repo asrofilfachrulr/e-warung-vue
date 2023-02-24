@@ -29,7 +29,7 @@
         </div>
         <div class="col-3 px-0">
             <button
-                class="btn btn-primary h-100 w-100"
+                class="btn custom-btn-primary h-100 w-100"
                 style="padding: 0.5em 0.75em"
                 @click="reduceStock"
                 data-bs-dismiss="modal"
@@ -70,12 +70,21 @@ export default {
         reduce() {
             this.qty -= 1;
         },
+        /*
+         *   Flow adding to cart:
+         *
+         *   1. User plays with {stock} (model: qty) by decreasing/increasing qty with button control
+         *   2. Any {stock} changes on step 1 watched and applied to vuex
+         *   3. Only if user click "PESAN", the {origin} will be set equal to stock
+         *   4. If user close the Modal without clicking the "PESAN", stock will be      readjusted to origin again
+         *
+         */
         reduceStock: function () {
             console.log(`stock would be modified by ${this.qty}`);
-            this.$emit("data-callback-footer", this.qty);
-            this.$emit("submit-action");
+            this.$emit("data-callback-footer", this.qty); // trigger changes on parent pool
+            this.$emit("submit-action"); // trigger addToCart using the Modal Pool
 
-            // changes the origin
+            // changes the origin to equal to stock
             this.modifyOrigin({
                 id: this.data.id,
             });
@@ -87,6 +96,7 @@ export default {
     watch: {
         qty() {
             this.modifyStock({
+                // use stock as temporary quantity that can be rebooted to origin
                 id: this.data.id,
                 number: this.qty,
             });

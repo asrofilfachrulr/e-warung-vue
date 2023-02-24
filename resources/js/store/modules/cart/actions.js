@@ -3,7 +3,7 @@ const addToCart = function ({ commit }, payload) {
 };
 
 const modifyCart = function ({ commit }, payload) {
-    commit("modifyItem", payload);
+    commit("modifyCart", payload);
 };
 
 const resetCart = function ({ commit }) {

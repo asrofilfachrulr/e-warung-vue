@@ -62,7 +62,7 @@
             >
         </div>
         <div
-            class="container-fluid"
+            class="container-sm"
             style="overflow: hidden auto; background-color: var(--clr-gray)"
         >
             <product-section
@@ -156,8 +156,13 @@ export default {
     computed: {
         ...mapGetters("products", {
             foods: "getFoods",
+            foodsSize: "getFoodsSize",
+
             drinks: "getDrinks",
+            drinksSize: "getDrinksSize",
+
             snacks: "getSnacks",
+            snacksSize: "getSnacksSize",
         }),
         searchProductById() {
             return (id) => {
@@ -178,25 +183,14 @@ export default {
         ...mapActions("cart", ["addToCart"]),
 
         fetchIfNotLoaded: async function (product) {
-            if (product === "FOODS") {
-                if (Object.keys(this.foods).length === 0) {
-                    console.log("trying fetch data foods");
-                    await this.fetchFoods();
-                }
-            } else if (product === "DRINKS") {
-                if (Object.keys(this.drinks).length === 0) {
-                    console.log("trying fetch data drinks");
-                    await this.fetchDrinks();
-                }
-            } else if (product === "SNACKS") {
-                if (Object.keys(this.snacks).length === 0) {
-                    console.log("trying fetch data snacks");
-                    await this.fetchSnacks();
-                }
-            }
+            if (product === "FOODS" && this.foodsSize === 0)
+                await this.fetchFoods();
+            else if (product === "DRINKS" && this.drinksSize === 0)
+                await this.fetchDrinks();
+            else if (product === "SNACKS" && this.snacksSize === 0)
+                await this.fetchSnacks();
         },
         setCategory: async function (product) {
-            console.log("trying fetching data");
             await this.fetchIfNotLoaded(product);
             if (product === "FOODS") {
                 this.products = this.foods;
@@ -244,7 +238,7 @@ export default {
         },
     },
     mounted: async function () {
-        console.log("mounted");
+        console.log("mounted product page");
         await this.setCategory("FOODS");
     },
 };

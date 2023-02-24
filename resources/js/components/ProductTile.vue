@@ -34,6 +34,10 @@ export default {
 </script>
 
 <style>
+.card {
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+}
+
 #product-tile img {
     width: 100%;
     max-height: 150px;
