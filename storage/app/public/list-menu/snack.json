@@ -1,0 +1,122 @@
+{
+  "items": [
+    {
+      "id": "s-01",
+      "name": "Makaroni Keju Pedas",
+      "price": 15000,
+      "discount": 4500,
+      "desc": "Makaroni keju super pedas dan creamy, dijamin enak!.. Kalau ga enak, uang ga kembali!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/makaroni-pedas.jpg",
+      "custom": {
+          "requestPh": "pedesnya dikit aja"
+      },
+      "stock": 15,
+      "origin": 15
+    },
+    {
+      "id": "s-02",
+      "name": "Tempe Mendoan",
+      "price": 15500,
+      "discount": 3500,
+      "desc": "Tempe mendoan gurih lembut didalam dan tempe diluar..",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/mendoan.jpg",
+      "custom": {
+          "requestPh": "tempenya lebih garing"
+      },
+      "stock": 40,
+      "origin": 40
+    },
+    {
+      "id": "s-03",
+      "name": "Risol 6 Pcs",
+      "price": 13000,
+      "discount": 3000,
+      "desc": "Ria Risol terenak di warung kami! (karena cuma jual ini)",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/risol.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 30,
+      "origin": 30
+    },
+    {
+      "id": "s-04",
+      "name": "Bakwan 5 Pcs",
+      "price": 6500,
+      "discount": 0,
+      "desc": "Baq-one adalah crispy deep fried mixed of flour, garlic, veggie such as carrot and sheledri",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/bakwan.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 30,
+      "origin": 30
+    },
+    {
+      "id": "s-05",
+      "name": "Odading Mang Oleh",
+      "price": 9000,
+      "discount": 0,
+      "desc": "Ikan hiu makan tomat.. yuk sholat",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/odading.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 40,
+      "origin": 40
+    },
+    {
+      "id": "s-06",
+      "name": "Pisang Goreng",
+      "price": 8000,
+      "discount": 0,
+      "desc": "Gorengan paling digandrungi anak muda kekinian yang biasa disebut 'gedhang gorreng'",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/psiang goreng.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 30,
+      "origin": 30
+    },
+    {
+      "id": "s-07",
+      "name": "Rempeyek",
+      "price": 3500,
+      "discount": 0,
+      "desc": "Kriuk kriuk, All I heard is kriuk kriuk",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/peyek.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 20,
+      "origin": 20
+    },
+    {
+      "id": "s-08",
+      "name": "Rambak",
+      "price": 7000,
+      "discount": 0,
+      "desc": "gunyah, gurih dan renyah boskuhh!!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/rambak.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 15,
+      "origin": 15
+    },
+    {
+      "id": "s-09",
+      "name": "Cireng",
+      "price": 6000,
+      "discount": 0,
+      "desc": "You know cireng? Cireng is Aci Digoreng.. Mantap pisan brother",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/camilan/cireng.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 24,
+      "origin": 24
+    }
+  ],
+  "total": 9
+}

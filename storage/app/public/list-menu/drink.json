@@ -1,0 +1,122 @@
+{
+  "items": [
+    {
+      "id": "d-01",
+      "name": "Es Teh Arab",
+      "price": 7500,
+      "discount": 2000,
+      "desc": "Ini Teh āna, Teh daari ārab, akhi ukhti silahkan dipesān.. ",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/es-teh.jpg",
+      "custom": {
+          "requestPh": "Esnya dikit bae bang.."
+      },
+      "stock": 20,
+      "origin": 20
+    },
+    {
+      "id": "d-02",
+      "name": "Es Jeruk Segar",
+      "price": 12500,
+      "discount": 2500,
+      "desc": "Jeruk kok makan jeruk hehe ini bukan jeruk, ini Es Jeruk! ...",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/es-jeruk.jpg",
+      "custom": {
+          "requestPh": "Esnya dikit bae bang.."
+      },
+      "stock": 10,
+      "origin": 10
+    },
+    {
+      "id": "d-03",
+      "name": "Jus Alpukat",
+      "price": 12500,
+      "discount": 2000,
+      "desc": "Bahasa Jakselnya, Avocado Juice with sugar aren. Mantappu desu",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/jus-alpukat.jpg",
+      "custom": {
+          "requestPh": "Gula arennya tolong diaduk searah jarum jam.."
+      },
+      "stock": 15,
+      "origin": 15
+    },
+    {
+      "id": "d-04",
+      "name": "Air Putih Dingin",
+      "price": 500,
+      "discount": 0,
+      "desc": "Beli aje sepuasnye, biar kagak seret seret amat dah!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/air-putih.jpg",
+      "custom": {
+          "requestPh": ""
+      },
+      "stock": 100,
+      "origin": 100
+    },
+    {
+      "id": "d-05",
+      "name": "Susu plus Kue Ringan",
+      "price": 7500,
+      "discount": 0,
+      "desc": "4 Sehat 5 Sempurna dengan susu, hayu sedayana minum susu..",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/susu.jpg",
+      "custom": {
+          "requestPh": "Kue kue.. Siapa yang mau kuee..."
+      },
+      "stock": 5,
+      "origin": 5
+    },
+    {
+      "id": "d-06",
+      "name": "Kopi Hitam Anak Indie",
+      "price": 5000,
+      "discount": 0,
+      "desc": "Secangkir kopi menemani, walau daku termenung sendiri, tapi sosokmu selalu dihati...",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/kopi-hitam.jpg",
+      "custom": {
+          "requestPh": "Denganmu.. Tenaaang... Tak Terfikir.. Dunia ini..."
+      },
+      "stock": 25,
+      "origin": 25
+    },
+    {
+      "id": "d-07",
+      "name": "Kopi Susu",
+      "price": 6000,
+      "discount": 0,
+      "desc": "Satu cangkir milkita setara 3 gelas kopi susu",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/kopi-susu.jpg",
+      "custom": {
+          "requestPh": "Baru pulang dimarahin, ngajak berantem?.."
+      },
+      "stock": 12,
+      "origin": 12
+    },
+    {
+      "id": "d-08",
+      "name": "Jahe Rempah Hangat",
+      "price": 4000,
+      "discount": 0,
+      "desc": "Tarik sis, Jahengko.. Ah mantap!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/jahe.jpg",
+      "custom": {
+          "requestPh": "biasa aja.."
+      },
+      "stock": 9,
+      "origin": 9
+    },
+    {
+      "id": "d-09",
+      "name": "Teh Botol Sosro",
+      "price": 5000,
+      "discount": 0,
+      "desc": "Apapun makannya, minumnya teh pucuk eh teh botol sosro",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/minuman/teh-botol-sosro.png",
+      "custom": {
+          "requestPh": "dingin/biasa"
+      },
+      "stock": 30,
+      "origin": 30
+    }
+  ],
+  "total": 9
+}

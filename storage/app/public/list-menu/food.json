@@ -1,0 +1,135 @@
+{
+  "items": [
+    {
+      "id": "f-01",
+      "name": "Nasi Ayam Bakar Serundeng",
+      "price": 15000,
+      "discount": 1000,
+      "desc": "Nasi Ayam Bakar khas Jawa Timur dengan gurihnya serundeng. Sikat bos!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/ayam-bakar-serundeng.jpg",
+      "custom": {
+          "requestPh": "timun sama serundengnya tolong banyakin..."
+      },
+      "stock": 30,
+      "origin": 30
+    },
+    {
+      "id": "f-02",
+      "name": "Nasi Goreng",
+      "price": 13500,
+      "discount": 500,
+      "desc": "Nasi Goreng Jawa dengan bumbu rempah pilihan rasa restoran harga jalanan!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/nasi-goreng.jpg",
+      "custom": {
+          "requestPh": "pedes banget ya bang.."
+      },
+      "stock": 65,
+      "origin": 65
+    },
+    {
+      "id": "f-03",
+      "name": "Mie Goreng",
+      "price": 13000,
+      "discount": 1000,
+      "desc": "Mie goreng jawa rempah dengan topping suwiran ayam, sayur, gaskeun tambah ke keranjang!",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/mie-goreng.jpg",
+      "custom": {
+          "requestPh": "minta banyak kerupuknya dong.."
+      },
+      "stock": 55,
+      "origin": 55
+    },
+    {
+      "id": "f-04",
+      "name": "Nasi Pecel Komplit",
+      "price": 17500,
+      "discount": 5000,
+      "desc": "Nasi Pecel Blitar super komplit dengan ayam, tauge, tempe dan sayuran. Mantap soul.",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/nasi-pecel.jpg",
+      "custom": {
+          "requestPh": "Saus kacangnya dibuat tumpeh tumpeh bang.."
+      },
+      "stock": 10,
+      "origin": 10
+    },
+    {
+      "id": "f-05",
+      "name": "Nasi Sate Ayam 10 Tusuk",
+      "price": 19000,
+      "discount": 0,
+      "desc": "Nasi Sate Ayam Khas Madura insyaallah gurih dan lezatos americanos.",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/sate.jpg",
+      "custom": {
+          "requestPh": "Nasinya porsi belum makan 3 hari bang.."
+      },
+      "stock": 5,
+      "origin": 5
+    },
+    {
+      "id": "f-06",
+      "name": "Nasi Ayam Bakar Rempah",
+      "price": 19000,
+      "discount": 0,
+      "desc": "Nasi Ayam Bakar khas Jawa Timur, dimarinasi dengan bumbu rahasia yang dicari-cari FBI.",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/ayam-bakar.jpg",
+      "custom": {
+          "requestPh": "timunnya banyakin bang.."
+      },
+      "stock": 10,
+      "origin": 10
+    },
+    {
+      "id": "f-07",
+      "name": "Bakso Mie Lengkap",
+      "price": 24000,
+      "discount": 0,
+      "desc": "Bakso khas Wonogiri lengkap dengan mie kuning, daging, potongan daun aromatik skin care",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/bakso.jpg",
+      "custom": {
+          "requestPh": "kuahnya dikit aja bang..."
+      },
+      "stock": 12,
+      "origin": 12
+    },
+    {
+      "id": "f-08",
+      "name": "Mie Ayam Pangsit Telor",
+      "price": 17000,
+      "discount": 0,
+      "desc": "Lengkap banget kek difoto, udah pesen aja! kalau ga enak tinggal viralin bos",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/mie-ayam.jpg",
+      "custom": {
+          "requestPh": "masa sih minta request lagi? udah lengkap bgt.."
+      },
+      "stock": 22,
+      "origin": 22
+    },
+    {
+      "id": "f-09",
+      "name": "Nasi Uduk Ayam Telor",
+      "price": 19000,
+      "discount": 0,
+      "desc": "Nasi, nasi apa yang suka dugem? nasi uduk.. uduk uduk.. uduk uduk.. ",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/nasi-uduk.jpg",
+      "custom": {
+          "requestPh": "Minta telornya didadar aja bang.."
+      },
+      "stock": 10,
+      "origin": 10
+    },
+    {
+      "id": "f-10",
+      "name": "Ayam Krispi 5 Item",
+      "price": 39000,
+      "discount": 0,
+      "desc": "Ga kalah ini sm Sabanana dan Hisini, cm kalah sm KFC aja..",
+      "img": "https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/produk/makanan/ayam-krispy.jpg",
+      "custom": {
+          "requestPh": "dada semua dong bang.. hehe"
+      },
+      "stock": 40,
+      "origin": 40
+    }
+  ],
+  "total": 10
+}
