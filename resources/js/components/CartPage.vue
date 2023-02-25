@@ -134,6 +134,7 @@
                             id="customer-name-input"
                             type="text"
                             class="form-control"
+                            v-model="orderName"
                             placeholder="Asep Surasep ..."
                         />
                     </div>
@@ -146,7 +147,10 @@
                     >
                         Kosongkan<br />Keranjang
                     </button>
-                    <button class="rounded-0 btn custom-btn-primary w-100">
+                    <button
+                        class="rounded-0 btn custom-btn-primary w-100"
+                        @click="checkoutCart"
+                    >
                         <svg
                             width="20"
                             height="20"
@@ -177,15 +181,42 @@
                 </div>
             </div>
         </div>
+        <centered-modal
+            :header="modalData.header"
+            :body="modalData.body"
+            :footer="modalData.footer"
+            :id="modalId"
+            @submit-action="handleSubmit"
+        ></centered-modal>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import CheckoutModalBodyVue from "./ModalComponent/Checkout/CheckoutModalBody.vue";
+import CheckoutModalFooterVue from "./ModalComponent/Checkout/CheckoutModalFooter.vue";
+import CheckoutModalHeaderVue from "./ModalComponent/Checkout/CheckoutModalHeader.vue";
 export default {
     data: function () {
         return {
             flatCart: [],
+            orderName: "",
+            orderCode: "",
+            modalId: "checkoutModalId",
+            modalData: {
+                header: {
+                    component: CheckoutModalHeaderVue,
+                },
+                body: {
+                    component: CheckoutModalBodyVue,
+                    data: {
+                        code: "",
+                    },
+                },
+                footer: {
+                    component: CheckoutModalFooterVue,
+                },
+            },
         };
     },
     watch: {
@@ -266,6 +297,21 @@ export default {
             });
             console.log("clear cart has been finished");
         },
+        checkoutCart() {
+            const date = new Date();
+            this.orderCode = `${date.getFullYear()}$${
+                date.getMonth() + 1
+            }$${date.getDate()}-Order-${this.orderName.replace(/\s/g, "-")}`;
+
+            this.modalData.body.data.code = this.orderCode;
+
+            $("#" + this.modalId).modal("toggle");
+        },
+        handleSubmit() {
+            // clear cart (but no re-stock)
+            // go back to home
+        },
+        // utilities
         flattingCart() {
             // [{id, ..., req, qty}]
             const flattenCart = [];

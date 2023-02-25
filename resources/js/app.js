@@ -60,8 +60,19 @@ Vue.component(
 );
 
 Vue.component(
-    "stock-monitor",
-    require("./components/Debugger/StockMonitor.vue").default
+    "checkout-modal-header",
+    require("./components/ModalComponent/Checkout/CheckoutModalHeader.vue")
+        .default
+);
+Vue.component(
+    "checkout-modal-body",
+    require("./components/ModalComponent/Checkout/CheckoutModalBody.vue")
+        .default
+);
+Vue.component(
+    "checkout-modal-footer",
+    require("./components/ModalComponent/Checkout/CheckoutModalFooter.vue")
+        .default
 );
 
 /**

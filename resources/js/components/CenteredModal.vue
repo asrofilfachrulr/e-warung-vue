@@ -57,7 +57,7 @@ export default {
         },
         state: {
             type: Boolean,
-            required: true,
+            required: false,
         },
     },
     methods: {
