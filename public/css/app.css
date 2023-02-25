@@ -10823,6 +10823,7 @@ textarea.form-control-lg {
     --primary-clr: #6478c1;
     --primary-clr-darker: #66739f;
 
+    --clr-blue-accent-dark: #2642aa;
     --clr-gray: #f5f5f5;
 }
 
@@ -10904,5 +10905,9 @@ body {
 :-ms-input-placeholder {
     font-size: 0.8rem;
     font-weight: 300;
+}
+
+.price-accent {
+    color: var(--clr-blue-accent-dark) !important;
 }
 

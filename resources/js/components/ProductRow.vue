@@ -15,8 +15,11 @@
                         <h3 class="card-title" @click="handleClick">
                             {{ product.name }}
                         </h3>
-                        <p class="cart-text price" @click="handleClick">
-                            Rp. {{ product.price }}
+                        <p
+                            class="cart-text fw-bold price price-accent"
+                            @click="handleClick"
+                        >
+                            Rp. {{ product.price.toLocaleString("id-ID") }}
                         </p>
                         <button
                             style="padding: 0.5em 0.75em"

@@ -5335,15 +5335,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       handler: function handler() {
         console.log("CART HAS BEEN CHANGED");
         this.flatCart = this.flattingCart();
-        if (this.cart.total == 0) {
-          $("#footer-table-cart").css({
-            "border-top": "none"
-          });
-        } else {
-          $("#footer-table-cart").css({
-            "border-top": "2px solid #a4a4a4"
-          });
-        }
       },
       deep: true
     }
@@ -5398,24 +5389,32 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         id: id
       });
     },
-    flattingCart: function flattingCart() {
+    clearCart: function clearCart() {
       var _this = this;
+      console.log("invoke clear cart..");
+      this.flatCart.forEach(function (item) {
+        _this.removeItem(item);
+      });
+      console.log("clear cart has been finished");
+    },
+    flattingCart: function flattingCart() {
+      var _this2 = this;
       // [{id, ..., req, qty}]
       var flattenCart = [];
       Object.keys(this.cart["products"]).forEach(function (id) {
-        Object.keys(_this.cart["products"][id]["request"]).forEach(function (req) {
+        Object.keys(_this2.cart["products"][id]["request"]).forEach(function (req) {
           flattenCart.push(_objectSpread(_objectSpread({
             id: id
-          }, _this.cart["products"][id]), {}, {
+          }, _this2.cart["products"][id]), {}, {
             request: req,
-            qty: _this.cart["products"][id]["request"][req]
+            qty: _this2.cart["products"][id]["request"][req]
           }));
         });
       });
       return flattenCart;
     },
     generateDummyCartItem: function generateDummyCartItem() {
-      var _this2 = this;
+      var _this3 = this;
       console.log("generating dummy cart item");
 
       // flow of adding cart item
@@ -5454,48 +5453,48 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         qty: 4
       }];
       cartItems.forEach(function (item) {
-        _this2.modifyStock({
+        _this3.modifyStock({
           id: item.id,
           number: item.qty
         });
-        _this2.modifyOrigin({
+        _this3.modifyOrigin({
           id: item.id
         });
-        _this2.addToCart(item);
+        _this3.addToCart(item);
       });
       console.log("dummy cart itm generated");
     }
   }),
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             console.log("mounted cart component");
             // ensure all stock information is loaded
-            if (!(_this3.foodsSize === 0)) {
+            if (!(_this4.foodsSize === 0)) {
               _context.next = 4;
               break;
             }
             _context.next = 4;
-            return _this3.fetchFoods();
+            return _this4.fetchFoods();
           case 4:
-            if (!(_this3.drinksSize === 0)) {
+            if (!(_this4.drinksSize === 0)) {
               _context.next = 7;
               break;
             }
             _context.next = 7;
-            return _this3.fetchDrinks();
+            return _this4.fetchDrinks();
           case 7:
-            if (!(_this3.snacksSize === 0)) {
+            if (!(_this4.snacksSize === 0)) {
               _context.next = 10;
               break;
             }
             _context.next = 10;
-            return _this3.fetchSnacks();
+            return _this4.fetchSnacks();
           case 10:
-            _this3.flatCart = _this3.flattingCart();
+            _this4.flatCart = _this4.flattingCart();
           case 11:
           case "end":
             return _context.stop();
@@ -6178,7 +6177,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c("small", {
       staticClass: "text-muted",
       staticStyle: {}
-    }, [_vm._v("\n                            " + _vm._s(item.request ? item.request : "tidak custom") + "\n                            - " + _vm._s(item.qty) + " x " + _vm._s(item.price)), _c("br")]), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                            " + _vm._s(item.request ? item.request + " - " : "") + "\n                            " + _vm._s(item.qty) + " x\n                            " + _vm._s(item.price.toLocaleString("id-ID"))), _c("br")]), _vm._v(" "), _c("div", {
       staticClass: "d-flex justify-content-start mt-2",
       attrs: {
         id: "buttons-control-container"
@@ -6214,23 +6213,79 @@ var render = function render() {
       staticClass: "col-4 fw-bold text-end"
     }, [_c("span", {
       staticClass: "my-auto"
-    }, [_vm._v("Rp. " + _vm._s(item.price * item.qty))])])]);
+    }, [_vm._v("Rp.\n                            " + _vm._s((item.price * item.qty).toLocaleString("id-ID")))])])]);
   }), 0), _vm._v(" "), _c("div", {
     staticClass: "row row-cols-2 py-2 px-2",
+    style: "border-top: ".concat(_vm.cart.total > 0 ? "2px solid rgb(164, 164, 164)" : "none"),
     attrs: {
       id: "footer-table-cart"
     }
   }, [_c("div", {
-    staticClass: "col-8 text-end",
-    staticStyle: {
-      width: "70%"
+    staticClass: "col-8 text-end"
+  }, [_vm._v("Total  ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-4 text-end fw-bold price-accent",
+    attrs: {
+      stsyle: "min-width: fit-content"
     }
-  }, [_vm._v("\n                    Total  \n                ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-4 text-end fw-bolder",
+  }, [_vm._v("\n                    Rp. " + _vm._s(_vm.cart.total.toLocaleString("id-ID")) + "\n                ")])])]), _vm._v(" "), _c("div", {
+    staticClass: "w-100 position-fixed bottom-0 d-flex justify-content-end flex-column",
     staticStyle: {
-      width: "30%"
+      height: "150px",
+      background: "white",
+      "z-index": "99"
+    },
+    attrs: {
+      id: "cart-bottom-container"
     }
-  }, [_vm._v("\n                    Rp. " + _vm._s(_vm.cart.total) + "\n                ")])])]), _vm._v(" "), _vm._m(1)])], 1);
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "d-flex",
+    staticStyle: {
+      height: "60px"
+    }
+  }, [_c("button", {
+    staticClass: "rounded-0 btn btn-outline-danger w-100",
+    staticStyle: {
+      "font-size": "0.75rem"
+    },
+    on: {
+      click: _vm.clearCart
+    }
+  }, [_vm._v("\n                    Kosongkan"), _c("br"), _vm._v("Keranjang\n                ")]), _vm._v(" "), _c("button", {
+    staticClass: "rounded-0 btn custom-btn-primary w-100"
+  }, [_c("svg", {
+    attrs: {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 20 20",
+      fill: "none",
+      xmlns: "http://www.w3.org/2000/svg"
+    }
+  }, [_c("path", {
+    attrs: {
+      d: "M2.5 2.5H5V5H2.5V2.5Z",
+      fill: "white"
+    }
+  }), _vm._v(" "), _c("path", {
+    attrs: {
+      d: "M7.5 0V7.5H0V0H7.5ZM6.25 1.25H1.25V6.25H6.25V1.25ZM5 15H2.5V17.5H5V15Z",
+      fill: "white"
+    }
+  }), _vm._v(" "), _c("path", {
+    attrs: {
+      d: "M7.5 12.5V20H0V12.5H7.5ZM1.25 13.75V18.75H6.25V13.75H1.25ZM15 2.5H17.5V5H15V2.5Z",
+      fill: "white"
+    }
+  }), _vm._v(" "), _c("path", {
+    attrs: {
+      d: "M12.5 0V7.5H20V0H12.5ZM18.75 1.25V6.25H13.75V1.25H18.75ZM10 1.25V0H11.25V2.5H10V5H8.75V1.25H10ZM10 7.5V5H11.25V7.5H10ZM7.5 10V8.75H8.75V7.5H10V10H11.25V8.75H17.5V10H12.5V11.25H8.75V10H7.5ZM7.5 10V11.25H2.5V10H1.25V11.25H0V8.75H3.75V10H7.5ZM20 11.25H18.75V8.75H20V11.25ZM18.75 11.25H17.5V13.75H20V12.5H18.75V11.25ZM13.75 11.25H16.25V12.5H15V13.75H13.75V11.25ZM16.25 15V13.75H15V15H13.75V16.25H11.25V17.5H15V15H16.25ZM16.25 15H20V16.25H17.5V17.5H16.25V15ZM11.25 13.75V15H12.5V12.5H8.75V13.75H11.25Z",
+      fill: "white"
+    }
+  }), _vm._v(" "), _c("path", {
+    attrs: {
+      d: "M8.75 15H10V18.75H15V20H8.75V15ZM20 17.5V20H16.25V18.75H18.75V17.5H20Z",
+      fill: "white"
+    }
+  })]), _vm._v("\n                     Pesan\n                ")])])])])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -6249,16 +6304,6 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "w-100 position-fixed bottom-0 d-flex justify-content-end flex-column",
-    staticStyle: {
-      height: "150px",
-      background: "white",
-      "z-index": "99"
-    },
-    attrs: {
-      id: "cart-bottom-container"
-    }
-  }, [_c("div", {
     staticClass: "px-3 py-4"
   }, [_c("div", {
     staticClass: "name-input"
@@ -6274,19 +6319,7 @@ var staticRenderFns = [function () {
       type: "text",
       placeholder: "Asep Surasep ..."
     }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex",
-    staticStyle: {
-      height: "60px"
-    }
-  }, [_c("button", {
-    staticClass: "rounded-0 btn btn-outline-danger w-100",
-    staticStyle: {
-      "font-size": "0.75rem"
-    }
-  }, [_vm._v("\n                    Kosongkan"), _c("br"), _vm._v("Keranjang\n                ")]), _vm._v(" "), _c("button", {
-    staticClass: "rounded-0 btn custom-btn-primary w-100"
-  }, [_vm._v("\n                    Pesan\n                ")])])]);
+  })])]);
 }];
 render._withStripped = true;
 
@@ -6867,11 +6900,11 @@ var render = function render() {
       click: _vm.handleClick
     }
   }, [_vm._v("\n                        " + _vm._s(_vm.product.name) + "\n                    ")]), _vm._v(" "), _c("p", {
-    staticClass: "cart-text price",
+    staticClass: "cart-text fw-bold price price-accent",
     on: {
       click: _vm.handleClick
     }
-  }, [_vm._v("\n                        Rp. " + _vm._s(_vm.product.price) + "\n                    ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("\n                        Rp. " + _vm._s(_vm.product.price.toLocaleString("id-ID")) + "\n                    ")]), _vm._v(" "), _c("button", {
     staticClass: "btn custom-btn-primary-outline",
     staticStyle: {
       padding: "0.5em 0.75em"
@@ -6986,9 +7019,9 @@ var render = function render() {
     staticClass: "cart-text line"
   }, [_c("span", {
     staticClass: "price"
-  }, [_vm._v("Rp. " + _vm._s(_vm.product.price))])]), _vm._v(" "), _c("p", {
-    staticClass: "card-text discount-price"
-  }, [_vm._v("\n            Rp. " + _vm._s(_vm.product.price - _vm.product.discount) + "\n        ")])])]) : _vm._e();
+  }, [_vm._v("Rp. " + _vm._s(_vm.product.price.toLocaleString("id-ID")))])]), _vm._v(" "), _c("p", {
+    staticClass: "card-text fw-bold discount-price price-accent"
+  }, [_vm._v("\n            Rp.\n            " + _vm._s((_vm.product.price - _vm.product.discount).toLocaleString("id-ID")) + "\n        ")])])]) : _vm._e();
 };
 var staticRenderFns = [];
 render._withStripped = true;

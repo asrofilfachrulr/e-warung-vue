@@ -10,10 +10,13 @@
         <div class="card-body">
             <h3 class="card-title">{{ product.name }}</h3>
             <p class="cart-text line">
-                <span class="price">Rp. {{ product.price }}</span>
+                <span class="price"
+                    >Rp. {{ product.price.toLocaleString("id-ID") }}</span
+                >
             </p>
-            <p class="card-text discount-price">
-                Rp. {{ product.price - product.discount }}
+            <p class="card-text fw-bold discount-price price-accent">
+                Rp.
+                {{ (product.price - product.discount).toLocaleString("id-ID") }}
             </p>
         </div>
     </div>

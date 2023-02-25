@@ -58,10 +58,9 @@
                         <div class="col-8">
                             <p class="fw-bolder fs-5">{{ item.name }}</p>
                             <small class="text-muted" style="0.7rem">
-                                {{
-                                    item.request ? item.request : "tidak custom"
-                                }}
-                                - {{ item.qty }} x {{ item.price }}<br />
+                                {{ item.request ? item.request + " - " : "" }}
+                                {{ item.qty }} x
+                                {{ item.price.toLocaleString("id-ID") }}<br />
                             </small>
                             <div
                                 id="buttons-control-container"
@@ -94,17 +93,29 @@
                         </div>
                         <div class="col-4 fw-bold text-end">
                             <span class="my-auto"
-                                >Rp. {{ item.price * item.qty }}</span
+                                >Rp.
+                                {{
+                                    (item.price * item.qty).toLocaleString(
+                                        "id-ID"
+                                    )
+                                }}</span
                             >
                         </div>
                     </div>
                 </div>
-                <div class="row row-cols-2 py-2 px-2" id="footer-table-cart">
-                    <div style="width: 70%" class="col-8 text-end">
-                        Total &nbsp;
-                    </div>
-                    <div style="width: 30%" class="col-4 text-end fw-bolder">
-                        Rp. {{ cart.total }}
+                <div
+                    class="row row-cols-2 py-2 px-2"
+                    id="footer-table-cart"
+                    :style="`border-top: ${
+                        cart.total > 0 ? '2px solid rgb(164, 164, 164)' : 'none'
+                    }`"
+                >
+                    <div class="col-8 text-end">Total &nbsp;</div>
+                    <div
+                        stsyle="min-width: fit-content"
+                        class="col-4 text-end fw-bold price-accent"
+                    >
+                        Rp. {{ cart.total.toLocaleString("id-ID") }}
                     </div>
                 </div>
             </div>
@@ -131,11 +142,37 @@
                     <button
                         class="rounded-0 btn btn-outline-danger w-100"
                         style="font-size: 0.75rem"
+                        @click="clearCart"
                     >
                         Kosongkan<br />Keranjang
                     </button>
                     <button class="rounded-0 btn custom-btn-primary w-100">
-                        Pesan
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d="M2.5 2.5H5V5H2.5V2.5Z" fill="white" />
+                            <path
+                                d="M7.5 0V7.5H0V0H7.5ZM6.25 1.25H1.25V6.25H6.25V1.25ZM5 15H2.5V17.5H5V15Z"
+                                fill="white"
+                            />
+                            <path
+                                d="M7.5 12.5V20H0V12.5H7.5ZM1.25 13.75V18.75H6.25V13.75H1.25ZM15 2.5H17.5V5H15V2.5Z"
+                                fill="white"
+                            />
+                            <path
+                                d="M12.5 0V7.5H20V0H12.5ZM18.75 1.25V6.25H13.75V1.25H18.75ZM10 1.25V0H11.25V2.5H10V5H8.75V1.25H10ZM10 7.5V5H11.25V7.5H10ZM7.5 10V8.75H8.75V7.5H10V10H11.25V8.75H17.5V10H12.5V11.25H8.75V10H7.5ZM7.5 10V11.25H2.5V10H1.25V11.25H0V8.75H3.75V10H7.5ZM20 11.25H18.75V8.75H20V11.25ZM18.75 11.25H17.5V13.75H20V12.5H18.75V11.25ZM13.75 11.25H16.25V12.5H15V13.75H13.75V11.25ZM16.25 15V13.75H15V15H13.75V16.25H11.25V17.5H15V15H16.25ZM16.25 15H20V16.25H17.5V17.5H16.25V15ZM11.25 13.75V15H12.5V12.5H8.75V13.75H11.25Z"
+                                fill="white"
+                            />
+                            <path
+                                d="M8.75 15H10V18.75H15V20H8.75V15ZM20 17.5V20H16.25V18.75H18.75V17.5H20Z"
+                                fill="white"
+                            />
+                        </svg>
+                        &nbsp;Pesan
                     </button>
                 </div>
             </div>
@@ -156,13 +193,6 @@ export default {
             handler: function () {
                 console.log("CART HAS BEEN CHANGED");
                 this.flatCart = this.flattingCart();
-                if (this.cart.total == 0) {
-                    $("#footer-table-cart").css({ "border-top": "none" });
-                } else {
-                    $("#footer-table-cart").css({
-                        "border-top": "2px solid #a4a4a4",
-                    });
-                }
             },
             deep: true,
         },
@@ -227,6 +257,14 @@ export default {
             this.modifyOrigin({
                 id,
             });
+        },
+        clearCart() {
+            console.log("invoke clear cart..");
+
+            this.flatCart.forEach((item) => {
+                this.removeItem(item);
+            });
+            console.log("clear cart has been finished");
         },
         flattingCart() {
             // [{id, ..., req, qty}]
