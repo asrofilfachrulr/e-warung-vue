@@ -36,104 +36,96 @@
         </router-link>
         <h2 class="px-4">Keranjang Pesanan</h2>
         <div class="container-fluid pt-2 px-0 h-100" id="cart-container">
-            <!-- Table Container -->
+            <!-- Grid Table Container -->
             <div
-                class="container-sm px-3 rounded-5"
-                style="
-                    max-height: 55%vh !important;
-                    overflow: hidden auto;
-                    background: white;
-                "
+                class="container-sm px-3 rounded-1"
+                id="grid-table-cart-container"
             >
-                <table class="table table-borderless my-0">
-                    <thead
-                        class="position-sticky"
-                        style="top: 0; background: white"
+                <div
+                    id="header-table-cart"
+                    class="row row-cols-2 fw-bold fs-5 py-2 px-2"
+                >
+                    <div class="col-8">Product</div>
+                    <div class="col-4 text-end">Price</div>
+                </div>
+                <div class="row sep-shadow"></div>
+                <div class="p-0" id="row-table-cart">
+                    <div
+                        class="row row-cols-2 row-item-cart py-2 px-2"
+                        v-for="(item, id) in flatCart"
+                        :key="id"
                     >
-                        <tr style="border-bottom: 2px solid #a4a4a4">
-                            <th style="width: 70%" scope="col">Product</th>
-                            <th style="width: 30%" class="text-end" scope="col">
-                                Price
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody style="display: block">
-                        <tr v-for="(item, id) in flatCart" :key="id">
-                            <td style="width: 70%">
-                                <p class="fw-bolder fs-5">{{ item.name }}</p>
-                                <small class="text-muted" style="0.7rem">
-                                    {{
-                                        item.request
-                                            ? item.request
-                                            : "tidak custom"
-                                    }}
-                                    - {{ item.qty }} x {{ item.price }}<br />
-                                </small>
-                                <div
-                                    id="buttons-control-container"
-                                    class="d-flex justify-content-start mt-2"
-                                >
-                                    <button
-                                        class="btn btn-outline-danger mb-2"
-                                        @click="reduceQtyItem(item)"
-                                    >
-                                        kurangi
-                                    </button>
-                                    <button
-                                        class="btn btn-danger"
-                                        @click="removeItem(item)"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            fill="currentColor"
-                                            class="bi bi-trash3"
-                                            viewBox="0 0 16 16"
-                                        >
-                                            <path
-                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                            <td
-                                class="fw-bold text-end"
-                                style="vertical-align: middle; width: 30%"
+                        <div class="col-8">
+                            <p class="fw-bolder fs-5">{{ item.name }}</p>
+                            <small class="text-muted" style="0.7rem">
+                                {{
+                                    item.request ? item.request : "tidak custom"
+                                }}
+                                - {{ item.qty }} x {{ item.price }}<br />
+                            </small>
+                            <div
+                                id="buttons-control-container"
+                                class="d-flex justify-content-start mt-2"
                             >
-                                Rp. {{ item.price * item.qty }}
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot style="border-top: 2px solid #a4a4a4">
-                        <tr>
-                            <td style="width: 70%" class="text-end">
-                                Total &nbsp;
-                            </td>
-                            <td style="width: 30%" class="text-end fw-bolder">
-                                Rp. {{ cart.total }}
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                                <button
+                                    class="btn btn-outline-danger mb-2"
+                                    @click="reduceQtyItem(item)"
+                                >
+                                    kurangi
+                                </button>
+                                <button
+                                    class="btn btn-danger"
+                                    @click="removeItem(item)"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="currentColor"
+                                        class="bi bi-trash3"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path
+                                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-4 fw-bold text-end">
+                            <span class="my-auto"
+                                >Rp. {{ item.price * item.qty }}</span
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-2 py-2 px-2" id="footer-table-cart">
+                    <div style="width: 70%" class="col-8 text-end">
+                        Total &nbsp;
+                    </div>
+                    <div style="width: 30%" class="col-4 text-end fw-bolder">
+                        Rp. {{ cart.total }}
+                    </div>
+                </div>
             </div>
             <!-- Bottom Container -->
             <div
                 id="cart-bottom-container"
-                class="w-100 position-fixed bottom-0"
-                style="height: fit-content; background: white"
+                class="w-100 position-fixed bottom-0 d-flex justify-content-end flex-column"
+                style="height: 150px; background: white; z-index: 99"
             >
                 <div class="px-3 py-4">
-                    <label for="customer-name-input" class="form-label"
-                        >Nama Pemesan</label
-                    >
-                    <input
-                        id="customer-name-input"
-                        type="text"
-                        class="form-control"
-                        placeholder="Asep Surasep"
-                    />
+                    <div class="name-input">
+                        <label for="customer-name-input" class="form-label"
+                            >Nama Pemesan</label
+                        >
+                        <input
+                            id="customer-name-input"
+                            type="text"
+                            class="form-control"
+                            placeholder="Asep Surasep ..."
+                        />
+                    </div>
                 </div>
                 <div class="d-flex" style="height: 60px">
                     <button
@@ -164,6 +156,13 @@ export default {
             handler: function () {
                 console.log("CART HAS BEEN CHANGED");
                 this.flatCart = this.flattingCart();
+                if (this.cart.total == 0) {
+                    $("#footer-table-cart").css({ "border-top": "none" });
+                } else {
+                    $("#footer-table-cart").css({
+                        "border-top": "2px solid #a4a4a4",
+                    });
+                }
             },
             deep: true,
         },
@@ -322,8 +321,12 @@ export default {
     background-color: #f5f5f5;
 }
 
-#cart-bottom-container {
-    display: none;
+#grid-table-cart-container {
+    --table-con-hg: calc(100vh - 70px - 200px);
+    min-height: 100px;
+    max-height: var(--table-con-hg) !important;
+    overflow: hidden;
+    background: white;
 }
 
 #btn-chevron-back {
@@ -340,25 +343,32 @@ export default {
     width: fit-content;
     height: 40px;
 }
+/* 
+#header-table-cart {
+} */
 
-table tbody tr {
-    border-bottom: 1px solid #a4a4a4;
+.sep-shadow {
+    border-bottom: 2px solid #a4a4a4;
+    height: 0px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-table tbody tr:last-of-type {
-    border-bottom: none;
+#row-table-cart {
+    max-height: min(calc(var(--table-con-hg) - 90px), 700px) !important;
+    overflow: hidden auto;
 }
 
-tbody {
-    display: block;
-    max-height: min(70vh, 700px);
-    overflow: auto;
+.row-item-cart {
+    border-bottom: 1px solid #c5c5c5;
 }
-thead,
-tbody,
-tfoot tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed; /* even columns width , fix width of table too*/
+
+.row-item-cart p {
+    margin-bottom: 0.25em;
+}
+
+#footer-table-cart {
+    min-height: 50px !important;
 }
 </style>

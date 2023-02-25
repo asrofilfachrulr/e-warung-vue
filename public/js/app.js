@@ -5335,6 +5335,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       handler: function handler() {
         console.log("CART HAS BEEN CHANGED");
         this.flatCart = this.flattingCart();
+        if (this.cart.total == 0) {
+          $("#footer-table-cart").css({
+            "border-top": "none"
+          });
+        } else {
+          $("#footer-table-cart").css({
+            "border-top": "2px solid #a4a4a4"
+          });
+        }
       },
       deep: true
     }
@@ -6147,31 +6156,29 @@ var render = function render() {
       id: "cart-container"
     }
   }, [_c("div", {
-    staticClass: "container-sm px-3 rounded-5",
-    staticStyle: {
-      "max-height": "55%vh !important",
-      overflow: "hidden auto",
-      background: "white"
+    staticClass: "container-sm px-3 rounded-1",
+    attrs: {
+      id: "grid-table-cart-container"
     }
-  }, [_c("table", {
-    staticClass: "table table-borderless my-0"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", {
-    staticStyle: {
-      display: "block"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "row sep-shadow"
+  }), _vm._v(" "), _c("div", {
+    staticClass: "p-0",
+    attrs: {
+      id: "row-table-cart"
     }
   }, _vm._l(_vm.flatCart, function (item, id) {
-    return _c("tr", {
-      key: id
-    }, [_c("td", {
-      staticStyle: {
-        width: "70%"
-      }
+    return _c("div", {
+      key: id,
+      staticClass: "row row-cols-2 row-item-cart py-2 px-2"
+    }, [_c("div", {
+      staticClass: "col-8"
     }, [_c("p", {
       staticClass: "fw-bolder fs-5"
     }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c("small", {
       staticClass: "text-muted",
       staticStyle: {}
-    }, [_vm._v("\n                                " + _vm._s(item.request ? item.request : "tidak custom") + "\n                                - " + _vm._s(item.qty) + " x " + _vm._s(item.price)), _c("br")]), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                            " + _vm._s(item.request ? item.request : "tidak custom") + "\n                            - " + _vm._s(item.qty) + " x " + _vm._s(item.price)), _c("br")]), _vm._v(" "), _c("div", {
       staticClass: "d-flex justify-content-start mt-2",
       attrs: {
         id: "buttons-control-container"
@@ -6183,7 +6190,7 @@ var render = function render() {
           return _vm.reduceQtyItem(item);
         }
       }
-    }, [_vm._v("\n                                    kurangi\n                                ")]), _vm._v(" "), _c("button", {
+    }, [_vm._v("\n                                kurangi\n                            ")]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-danger",
       on: {
         click: function click($event) {
@@ -6203,72 +6210,58 @@ var render = function render() {
       attrs: {
         d: "M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
       }
-    })])])])]), _vm._v(" "), _c("td", {
-      staticClass: "fw-bold text-end",
-      staticStyle: {
-        "vertical-align": "middle",
-        width: "30%"
-      }
-    }, [_vm._v("\n                            Rp. " + _vm._s(item.price * item.qty) + "\n                        ")])]);
-  }), 0), _vm._v(" "), _c("tfoot", {
-    staticStyle: {
-      "border-top": "2px solid #a4a4a4"
+    })])])])]), _vm._v(" "), _c("div", {
+      staticClass: "col-4 fw-bold text-end"
+    }, [_c("span", {
+      staticClass: "my-auto"
+    }, [_vm._v("Rp. " + _vm._s(item.price * item.qty))])])]);
+  }), 0), _vm._v(" "), _c("div", {
+    staticClass: "row row-cols-2 py-2 px-2",
+    attrs: {
+      id: "footer-table-cart"
     }
-  }, [_c("tr", [_c("td", {
-    staticClass: "text-end",
+  }, [_c("div", {
+    staticClass: "col-8 text-end",
     staticStyle: {
       width: "70%"
     }
-  }, [_vm._v("\n                            Total  \n                        ")]), _vm._v(" "), _c("td", {
-    staticClass: "text-end fw-bolder",
+  }, [_vm._v("\n                    Total  \n                ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-4 text-end fw-bolder",
     staticStyle: {
       width: "30%"
     }
-  }, [_vm._v("\n                            Rp. " + _vm._s(_vm.cart.total) + "\n                        ")])])])])]), _vm._v(" "), _vm._m(1)])], 1);
+  }, [_vm._v("\n                    Rp. " + _vm._s(_vm.cart.total) + "\n                ")])])]), _vm._v(" "), _vm._m(1)])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", {
-    staticClass: "position-sticky",
-    staticStyle: {
-      top: "0",
-      background: "white"
-    }
-  }, [_c("tr", {
-    staticStyle: {
-      "border-bottom": "2px solid #a4a4a4"
-    }
-  }, [_c("th", {
-    staticStyle: {
-      width: "70%"
-    },
+  return _c("div", {
+    staticClass: "row row-cols-2 fw-bold fs-5 py-2 px-2",
     attrs: {
-      scope: "col"
+      id: "header-table-cart"
     }
-  }, [_vm._v("Product")]), _vm._v(" "), _c("th", {
-    staticClass: "text-end",
-    staticStyle: {
-      width: "30%"
-    },
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("\n                            Price\n                        ")])])]);
+  }, [_c("div", {
+    staticClass: "col-8"
+  }, [_vm._v("Product")]), _vm._v(" "), _c("div", {
+    staticClass: "col-4 text-end"
+  }, [_vm._v("Price")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "w-100 position-fixed bottom-0",
+    staticClass: "w-100 position-fixed bottom-0 d-flex justify-content-end flex-column",
     staticStyle: {
-      height: "fit-content",
-      background: "white"
+      height: "150px",
+      background: "white",
+      "z-index": "99"
     },
     attrs: {
       id: "cart-bottom-container"
     }
   }, [_c("div", {
     staticClass: "px-3 py-4"
+  }, [_c("div", {
+    staticClass: "name-input"
   }, [_c("label", {
     staticClass: "form-label",
     attrs: {
@@ -6279,9 +6272,9 @@ var staticRenderFns = [function () {
     attrs: {
       id: "customer-name-input",
       type: "text",
-      placeholder: "Asep Surasep"
+      placeholder: "Asep Surasep ..."
     }
-  })]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "d-flex",
     staticStyle: {
       height: "60px"
@@ -13006,7 +12999,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#cart-container {\r\n    background-color: #f5f5f5;\n}\n#cart-bottom-container {\r\n    display: none;\n}\n#btn-chevron-back {\r\n    width: 24px;\r\n    height: 24px;\n}\n#hint-btn-chevron-back {\r\n    font-size: 1.25rem;\n}\n#buttons-control-container {\r\n    gap: 1rem;\n}\n#buttons-control-container > * {\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n    height: 40px;\n}\ntable tbody tr {\r\n    border-bottom: 1px solid #a4a4a4;\n}\ntable tbody tr:last-of-type {\r\n    border-bottom: none;\n}\ntbody {\r\n    display: block;\r\n    max-height: min(70vh, 700px);\r\n    overflow: auto;\n}\nthead,\r\ntbody,\r\ntfoot tr {\r\n    display: table;\r\n    width: 100%;\r\n    table-layout: fixed; /* even columns width , fix width of table too*/\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#cart-container {\r\n    background-color: #f5f5f5;\n}\n#grid-table-cart-container {\r\n    --table-con-hg: calc(100vh - 70px - 200px);\r\n    min-height: 100px;\r\n    max-height: var(--table-con-hg) !important;\r\n    overflow: hidden;\r\n    background: white;\n}\n#btn-chevron-back {\r\n    width: 24px;\r\n    height: 24px;\n}\n#hint-btn-chevron-back {\r\n    font-size: 1.25rem;\n}\n#buttons-control-container {\r\n    gap: 1rem;\n}\n#buttons-control-container > * {\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n    height: 40px;\n}\r\n/* \r\n#header-table-cart {\r\n} */\n.sep-shadow {\r\n    border-bottom: 2px solid #a4a4a4;\r\n    height: 0px;\r\n    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);\r\n    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);\r\n    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);\n}\n#row-table-cart {\r\n    max-height: min(calc(var(--table-con-hg) - 90px), 700px) !important;\r\n    overflow: hidden auto;\n}\n.row-item-cart {\r\n    border-bottom: 1px solid #c5c5c5;\n}\n.row-item-cart p {\r\n    margin-bottom: 0.25em;\n}\n#footer-table-cart {\r\n    min-height: 50px !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

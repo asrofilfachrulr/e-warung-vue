@@ -12,6 +12,13 @@
     border: none;
 }
 
+.custom-btn-primary:active,
+.custom-btn-primary:hover,
+.custom-btn-primary:focus {
+    background-color: var(--primary-clr-darker) !important;
+    color: white !important;
+}
+
 .custom-btn-primary:disabled {
     color: white;
 }
@@ -59,4 +66,21 @@ body {
 /* Microsoft Edge and Internet Explorer */
 ::-ms-scrollbar-thumb {
     height: 10px;
+}
+
+::-webkit-input-placeholder {
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+:-moz-placeholder {
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+::-moz-placeholder {
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+:-ms-input-placeholder {
+    font-size: 0.8rem;
+    font-weight: 300;
 }
