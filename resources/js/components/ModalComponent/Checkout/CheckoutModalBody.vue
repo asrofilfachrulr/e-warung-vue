@@ -8,7 +8,7 @@
             <svg id="qrcode-container"></svg>
             <p>Kode Pesanan</p>
             <small>{{ data.code }}</small>
-            <small>{{ new Date().toJSON() }}</small>
+            <small>{{ data.date }}</small>
         </div>
         <button class="btn custom-btn-primary mt-3">
             <svg

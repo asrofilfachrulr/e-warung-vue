@@ -202,7 +202,6 @@ export default {
         return {
             flatCart: [],
             orderName: "",
-            orderCode: "",
             modalId: "checkoutModalId",
             modalData: {
                 header: {
@@ -212,6 +211,7 @@ export default {
                     component: CheckoutModalBodyVue,
                     data: {
                         code: "",
+                        date: "",
                     },
                 },
                 footer: {
@@ -247,7 +247,7 @@ export default {
             "fetchDrinks",
             "fetchSnacks",
         ]),
-        ...mapActions("checkout", ["fetchCounter"]),
+        ...mapActions("checkout", ["postOrder"]),
 
         // Control Steps
         // 1. modify cart item
@@ -301,26 +301,24 @@ export default {
             console.log("clear cart has been finished");
         },
         async checkoutCart() {
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
+            // post order from checked cart out
+            const response = await this.postOrder({
+                name: this.orderName || "no-name",
+                data: this.flatCart,
+                total: this.flatCart.length,
+            });
 
-            await this.fetchCounter();
+            if (response.status != 201) {
+                console.log("ERROR POST ORDER");
+                return;
+            }
 
-            const orderIdentifier = `${date.getHours() > 12 ? "P" : "A"}${
-                this.checkoutCounter - 1
-            }`;
+            this.modalData.body.data.code = response.data.orderCode;
+            this.modalData.body.data.date = response.data.date;
 
-            const postfix = this.orderName.replace(/\s/g, "-") || "no-name";
-
-            this.orderCode = `${year}${month}${day}-${orderIdentifier}:${postfix}`;
-
-            this.modalData.body.data.code = this.orderCode;
-
-            console.log(`generating qrcode with id ${this.orderCode}`);
+            console.log(`generating qrcode with id ${response.data.orderCode}`);
             var qr = qrcode(4, "H");
-            qr.addData(this.orderCode);
+            qr.addData(response.data.orderCode);
             qr.make();
             var svg = qr.createSvgTag(4, 4);
             document.getElementById("qrcode-container").innerHTML = svg;

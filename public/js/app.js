@@ -5335,7 +5335,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     return {
       flatCart: [],
       orderName: "",
-      orderCode: "",
       modalId: "checkoutModalId",
       modalData: {
         header: {
@@ -5344,7 +5343,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         body: {
           component: _ModalComponent_Checkout_CheckoutModalBody_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
           data: {
-            code: ""
+            code: "",
+            date: ""
           }
         },
         footer: {
@@ -5371,7 +5371,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)("checkout", {
     checkoutCounter: "getCounter"
   })),
-  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart", "modifyCart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["modifyStock", "modifyOrigin", "fetchFoods", "fetchDrinks", "fetchSnacks"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("checkout", ["fetchCounter"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart", "modifyCart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["modifyStock", "modifyOrigin", "fetchFoods", "fetchDrinks", "fetchSnacks"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("checkout", ["postOrder"])), {}, {
     // Control Steps
     // 1. modify cart item
     // 2. modify stock
@@ -5425,30 +5425,36 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     checkoutCart: function checkoutCart() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var date, year, month, day, orderIdentifier, postfix, qr, svg;
+        var response, qr, svg;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              date = new Date();
-              year = date.getFullYear();
-              month = date.getMonth() + 1;
-              day = date.getDate();
-              _context.next = 6;
-              return _this2.fetchCounter();
+              _context.next = 2;
+              return _this2.postOrder({
+                name: _this2.orderName || "no-name",
+                data: _this2.flatCart,
+                total: _this2.flatCart.length
+              });
+            case 2:
+              response = _context.sent;
+              if (!(response.status != 201)) {
+                _context.next = 6;
+                break;
+              }
+              console.log("ERROR POST ORDER");
+              return _context.abrupt("return");
             case 6:
-              orderIdentifier = "".concat(date.getHours() > 12 ? "P" : "A").concat(_this2.checkoutCounter - 1);
-              postfix = _this2.orderName.replace(/\s/g, "-") || "no-name";
-              _this2.orderCode = "".concat(year).concat(month).concat(day, "-").concat(orderIdentifier, ":").concat(postfix);
-              _this2.modalData.body.data.code = _this2.orderCode;
-              console.log("generating qrcode with id ".concat(_this2.orderCode));
+              _this2.modalData.body.data.code = response.data.orderCode;
+              _this2.modalData.body.data.date = response.data.date;
+              console.log("generating qrcode with id ".concat(response.data.orderCode));
               qr = qrcode(4, "H");
-              qr.addData(_this2.orderCode);
+              qr.addData(response.data.orderCode);
               qr.make();
               svg = qr.createSvgTag(4, 4);
               document.getElementById("qrcode-container").innerHTML = svg;
               document.getElementById("qrcode-container").children[0].style.transform = "scale(1.25)";
               $("#" + _this2.modalId).modal("toggle");
-            case 18:
+            case 16:
             case "end":
               return _context.stop();
           }
@@ -6504,7 +6510,7 @@ var render = function render() {
     attrs: {
       id: "qrcode-container"
     }
-  }), _vm._v(" "), _c("p", [_vm._v("Kode Pesanan")]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.data.code))]), _vm._v(" "), _c("small", [_vm._v(_vm._s(new Date().toJSON()))])]), _vm._v(" "), _c("button", {
+  }), _vm._v(" "), _c("p", [_vm._v("Kode Pesanan")]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.data.code))]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.data.date))])]), _vm._v(" "), _c("button", {
     staticClass: "btn custom-btn-primary mt-3"
   }, [_c("svg", {
     attrs: {
@@ -7574,8 +7580,30 @@ var fetchCounter = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
+var postOrder = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_, payload) {
+    var response;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return axios.post("api/order", payload);
+        case 2:
+          response = _context2.sent;
+          return _context2.abrupt("return", response);
+        case 4:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return function postOrder(_x2, _x3) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  fetchCounter: fetchCounter
+  fetchCounter: fetchCounter,
+  postOrder: postOrder
 });
 
 /***/ }),

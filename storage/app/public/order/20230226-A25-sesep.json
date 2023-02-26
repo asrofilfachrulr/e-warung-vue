@@ -1,0 +1,46 @@
+{
+    "name": "sesep",
+    "data": [
+        {
+            "id": "f-01",
+            "name": "Nasi Ayam Bakar Serundeng",
+            "price": 14000,
+            "total": 42000,
+            "request": "pedes",
+            "qty": 2
+        },
+        {
+            "id": "f-01",
+            "name": "Nasi Ayam Bakar Serundeng",
+            "price": 14000,
+            "total": 42000,
+            "request": null,
+            "qty": 1
+        },
+        {
+            "id": "f-04",
+            "name": "Nasi Pecel Komplit",
+            "price": 12500,
+            "total": 125000,
+            "request": null,
+            "qty": 4
+        },
+        {
+            "id": "f-04",
+            "name": "Nasi Pecel Komplit",
+            "price": 12500,
+            "total": 125000,
+            "request": "Ga pake peyek, ganti kerupuk ikan aja",
+            "qty": 6
+        },
+        {
+            "id": "d-07",
+            "name": "Kopi Susu",
+            "price": 6000,
+            "total": 24000,
+            "request": null,
+            "qty": 4
+        }
+    ],
+    "total": 5
+}

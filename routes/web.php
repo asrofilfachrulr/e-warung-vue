@@ -43,13 +43,41 @@ Route::get($base_api.'list-menu', function (Request $request) {
 });
 
 Route::post($base_api.'order', function (Request $request) {
+    // get request payload
     $data = $request->all();
-    $json = json_encode($data, JSON_PRETTY_PRINT);
+    $request_payload_json = json_encode($data, JSON_PRETTY_PRINT);
 
-    $date_postfix = date('YmdHis');
-    $number_postfix = rand(1,9);
-    Storage::put('order/order-'.$date_postfix.'-'.strval($number_postfix).'.json', $json);
-    return response()->json(['status' => 'ok', 'message' => 'order has been saved'], 201);
+    // get current counter
+    $counterJson = Storage::get('public/checkout/counter.json');
+    $counterData = json_decode($counterJson, true);
+
+    // generating order code
+    $date = new DateTime();
+    $year = $date->format('Y');
+    $month = $date->format('m');
+    $day = $date->format('d');
+    $hour = $date->format('H');
+    $dateISO = date('c');
+
+    $orderIdentifier = ($hour > 12) ? 'P' : 'A';
+    $orderIdentifier .= $counterData["counter"];
+
+    $postfix = preg_replace('/\s+/', '-', $data["name"]);
+
+    $orderCode = "{$year}{$month}{$day}-{$orderIdentifier}-{$postfix}";
+
+    $file_name = 'public/order/'.$orderCode.'.json';
+    
+    Storage::put($file_name, $request_payload_json);
+
+    // Increment the counter property
+    $counterData['counter']++;
+
+    // Write the updated counter back to storage
+    $updatedCounterJson = json_encode($counterData);
+    Storage::put('public/checkout/counter.json', $updatedCounterJson);
+
+    return response()->json(['status' => 'ok', 'message' => 'order has been saved', 'orderCode' => $orderCode , 'date' => $dateISO], 201);
 });
 
 Route::get($base_api.'order', function () {
