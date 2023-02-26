@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CounterController;
 
 
 /*
@@ -22,7 +23,6 @@ use Illuminate\Support\Facades\Storage;
 */
 
 $base_api = "/api/";
-
 
 // query param ?category=food
 Route::get($base_api.'list-menu', function (Request $request) {
@@ -56,6 +56,8 @@ Route::get($base_api.'order', function () {
     return "use this url with POST method";
 });
 
+
+Route::get($base_api.'checkout/counter', [CounterController::class, 'getCounter']);
 
 /*
 *   FrontEnd Endpoint

@@ -149,6 +149,7 @@
                     </button>
                     <button
                         class="rounded-0 btn custom-btn-primary w-100"
+                        :disabled="cart.total <= 0"
                         @click="checkoutCart"
                     >
                         <svg
@@ -235,6 +236,7 @@ export default {
             drinksSize: "getDrinksSize",
             snacksSize: "getSnacksSize",
         }),
+        ...mapGetters("checkout", { checkoutCounter: "getCounter" }),
     },
     methods: {
         ...mapActions("cart", ["addToCart", "modifyCart"]),
@@ -245,6 +247,7 @@ export default {
             "fetchDrinks",
             "fetchSnacks",
         ]),
+        ...mapActions("checkout", ["fetchCounter"]),
 
         // Control Steps
         // 1. modify cart item
@@ -297,13 +300,33 @@ export default {
             });
             console.log("clear cart has been finished");
         },
-        checkoutCart() {
+        async checkoutCart() {
             const date = new Date();
-            this.orderCode = `${date.getFullYear()}$${
-                date.getMonth() + 1
-            }$${date.getDate()}-Order-${this.orderName.replace(/\s/g, "-")}`;
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+
+            await this.fetchCounter();
+
+            const orderIdentifier = `${date.getHours() > 12 ? "P" : "A"}${
+                this.checkoutCounter - 1
+            }`;
+
+            const postfix = this.orderName.replace(/\s/g, "-") || "no-name";
+
+            this.orderCode = `${year}${month}${day}-${orderIdentifier}:${postfix}`;
 
             this.modalData.body.data.code = this.orderCode;
+
+            console.log(`generating qrcode with id ${this.orderCode}`);
+            var qr = qrcode(4, "H");
+            qr.addData(this.orderCode);
+            qr.make();
+            var svg = qr.createSvgTag(4, 4);
+            document.getElementById("qrcode-container").innerHTML = svg;
+            document.getElementById(
+                "qrcode-container"
+            ).children[0].style.transform = "scale(1.25)";
 
             $("#" + this.modalId).modal("toggle");
         },

@@ -4,16 +4,8 @@
             Silahkan selesaikan pesanan anda ke kasir dengan menunjukkan kode
             dibawah ini
         </p>
-        <div
-            class="d-flex flex-column align-items-center"
-            id="qrcode-container"
-        >
-            <div id="qrcode-img">
-                <img
-                    src="https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/qr%20code%20mock.jpg"
-                    alt=""
-                />
-            </div>
+        <div class="d-flex flex-column align-items-center" id="qrcode-box">
+            <svg id="qrcode-container"></svg>
             <p>Kode Pesanan</p>
             <small>{{ data.code }}</small>
             <small>{{ new Date().toJSON() }}</small>
@@ -57,7 +49,7 @@ export default {
 
 <style>
 #qrcode-container {
-    min-height: 350px;
+    min-height: fit-content;
     background: #ffffff;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
