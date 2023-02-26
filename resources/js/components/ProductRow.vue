@@ -24,7 +24,7 @@
                         <button
                             style="padding: 0.5em 0.75em"
                             class="btn custom-btn-primary-outline"
-                            @click="customClick"
+                            @click="add"
                         >
                             Tambah
                         </button>
@@ -44,8 +44,8 @@ export default {
         handleClick() {
             this.$emit("productClicked", this.product.id);
         },
-        customClick() {
-            console.log("click");
+        add() {
+            console.log("click add product on product row");
         },
     },
 };

@@ -239,7 +239,7 @@ export default {
         ...mapGetters("checkout", { checkoutCounter: "getCounter" }),
     },
     methods: {
-        ...mapActions("cart", ["addToCart", "modifyCart"]),
+        ...mapActions("cart", ["addToCart", "modifyCart", "finishCart"]),
         ...mapActions("products", [
             "modifyStock",
             "modifyOrigin",
@@ -321,12 +321,15 @@ export default {
             qr.addData(response.data.orderCode);
             qr.make();
             var svg = qr.createSvgTag(4, 4);
-            document.getElementById("qrcode-container").innerHTML = svg;
-            document.getElementById(
-                "qrcode-container"
-            ).children[0].style.transform = "scale(1.25)";
+            $("#qrcode-container").html(svg);
+            $("#qrcode-container")
+                .children(":first")
+                .css("transform", "scale(1.25)");
 
             $("#" + this.modalId).modal("toggle");
+
+            // clear cart without restock
+            this.finishCart();
         },
         handleSubmit() {
             // clear cart (but no re-stock)

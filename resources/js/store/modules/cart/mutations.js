@@ -91,7 +91,13 @@ const modifyCart = (state, { id, req, qty }) => {
     console.log("modify cart ended");
 };
 
+const finishCart = (state) => {
+    console.log("finishing cart by emptying cart without restock...");
+    state.cart.products = {};
+    state.cart.total = 0;
+};
 export default {
     addItem,
     modifyCart,
+    finishCart,
 };

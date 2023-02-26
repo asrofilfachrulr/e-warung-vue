@@ -11,6 +11,7 @@
     color: white;
     font-weight: 500;
     border: none;
+    padding: 0.5em 0.75em !important;
 }
 
 .custom-btn-primary:active,

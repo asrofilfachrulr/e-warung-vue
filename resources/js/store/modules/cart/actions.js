@@ -6,12 +6,12 @@ const modifyCart = function ({ commit }, payload) {
     commit("modifyCart", payload);
 };
 
-const resetCart = function ({ commit }) {
-    commit("resetCart");
+const finishCart = function ({ commit }) {
+    commit("finishCart");
 };
 
 export default {
     addToCart,
     modifyCart,
-    resetCart,
+    finishCart,
 };

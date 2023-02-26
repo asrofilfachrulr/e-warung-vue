@@ -5371,7 +5371,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)("checkout", {
     checkoutCounter: "getCounter"
   })),
-  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart", "modifyCart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["modifyStock", "modifyOrigin", "fetchFoods", "fetchDrinks", "fetchSnacks"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("checkout", ["postOrder"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("cart", ["addToCart", "modifyCart", "finishCart"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("products", ["modifyStock", "modifyOrigin", "fetchFoods", "fetchDrinks", "fetchSnacks"])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)("checkout", ["postOrder"])), {}, {
     // Control Steps
     // 1. modify cart item
     // 2. modify stock
@@ -5451,10 +5451,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               qr.addData(response.data.orderCode);
               qr.make();
               svg = qr.createSvgTag(4, 4);
-              document.getElementById("qrcode-container").innerHTML = svg;
-              document.getElementById("qrcode-container").children[0].style.transform = "scale(1.25)";
+              $("#qrcode-container").html(svg);
+              $("#qrcode-container").children(":first").css("transform", "scale(1.25)");
               $("#" + _this2.modalId).modal("toggle");
-            case 16:
+
+              // clear cart without restock
+              _this2.finishCart();
+            case 17:
             case "end":
               return _context.stop();
           }
@@ -6089,8 +6092,8 @@ __webpack_require__.r(__webpack_exports__);
     handleClick: function handleClick() {
       this.$emit("productClicked", this.product.id);
     },
-    customClick: function customClick() {
-      console.log("click");
+    add: function add() {
+      console.log("click add product on product row");
     }
   }
 });
@@ -6501,8 +6504,10 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("p", [_vm._v("\n        Silahkan selesaikan pesanan anda ke kasir dengan menunjukkan kode\n        dibawah ini\n    ")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex flex-column align-items-center",
+  return _c("div", {
+    staticClass: "px-3 py-2"
+  }, [_c("p", [_vm._v("\n        Silahkan selesaikan pesanan anda ke kasir dengan menunjukkan kode\n        dibawah ini\n    ")]), _vm._v(" "), _c("div", {
+    staticClass: "d-flex flex-column align-items-center py-2",
     attrs: {
       id: "qrcode-box"
     }
@@ -6510,31 +6515,16 @@ var render = function render() {
     attrs: {
       id: "qrcode-container"
     }
-  }), _vm._v(" "), _c("p", [_vm._v("Kode Pesanan")]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.data.code))]), _vm._v(" "), _c("small", [_vm._v(_vm._s(_vm.data.date))])]), _vm._v(" "), _c("button", {
-    staticClass: "btn custom-btn-primary mt-3"
-  }, [_c("svg", {
-    attrs: {
-      width: "18",
-      height: "18",
-      viewBox: "0 0 18 18",
-      fill: "none",
-      xmlns: "http://www.w3.org/2000/svg"
+  }), _vm._v(" "), _c("p", {
+    staticClass: "m-0"
+  }, [_vm._v("Kode Pesanan")]), _vm._v(" "), _c("small", {
+    staticClass: "text-muted"
+  }, [_vm._v(_vm._s(_vm.data.code))])]), _vm._v(" "), _c("small", {
+    staticClass: "mt-2 text-end text-muted d-block",
+    staticStyle: {
+      "font-size": "0.7rem"
     }
-  }, [_c("path", {
-    attrs: {
-      "fill-rule": "evenodd",
-      "clip-rule": "evenodd",
-      d: "M1.75061 15.5968V7.34976H2.91718V15.5968C2.91718 15.7651 2.97863 15.9264 3.08802 16.0454C3.19741 16.1644 3.34577 16.2312 3.50046 16.2312H13.9996C14.1543 16.2312 14.3026 16.1644 14.412 16.0454C14.5214 15.9264 14.5829 15.7651 14.5829 15.5968V7.34976H15.7494V15.5968C15.7494 16.1016 15.5651 16.5857 15.2369 16.9426C14.9088 17.2995 14.4637 17.5 13.9996 17.5H3.50046C3.03637 17.5 2.59129 17.2995 2.26313 16.9426C1.93497 16.5857 1.75061 16.1016 1.75061 15.5968ZM14.5829 1.64025V6.08098L12.2497 3.54342V1.64025C12.2497 1.472 12.3112 1.31064 12.4206 1.19167C12.53 1.0727 12.6783 1.00586 12.833 1.00586H13.9996C14.1543 1.00586 14.3026 1.0727 14.412 1.19167C14.5214 1.31064 14.5829 1.472 14.5829 1.64025Z",
-      fill: "white"
-    }
-  }), _vm._v(" "), _c("path", {
-    attrs: {
-      "fill-rule": "evenodd",
-      "clip-rule": "evenodd",
-      d: "M7.92524 0.371482C8.144 0.133622 8.44067 0 8.75 0C9.05933 0 9.356 0.133622 9.57476 0.371482L17.3289 8.8038C17.4385 8.92292 17.5 9.08448 17.5 9.25294C17.5 9.42141 17.4385 9.58297 17.3289 9.70209C17.2194 9.82121 17.0709 9.88814 16.916 9.88814C16.7611 9.88814 16.6125 9.82121 16.503 9.70209L8.75 1.26851L0.996986 9.70209C0.887461 9.82121 0.738913 9.88814 0.584021 9.88814C0.429129 9.88814 0.280581 9.82121 0.171056 9.70209C0.0615306 9.58297 0 9.42141 0 9.25294C0 9.08448 0.0615306 8.92292 0.171056 8.8038L7.92524 0.371482Z",
-      fill: "white"
-    }
-  })]), _vm._v("\n          Menu\n    ")])]);
+  }, [_vm._v(_vm._s(_vm.data.date))])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -6557,20 +6547,45 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _vm._m(0);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
   return _c("div", {
-    staticClass: "position-absolute",
+    staticClass: "row"
+  }, [_c("small", {
+    staticClass: "col-7 text-muted fst-italic",
     staticStyle: {
-      bottom: "0.5rem"
+      "font-size": "0.75rem"
     }
-  }, [_c("p", {
-    staticClass: "fst-italic"
-  }, [_vm._v("\n        Jika kode hilang, maka konfirmasi dengan menggunakan nama pada\n        pesanan\n    ")])]);
-}];
+  }, [_vm._v("\n        Jika kode pesanan hilang/tertutup, maka gunakan nama pemesan yang\n        anda masukan\n    ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-5 align-self-center",
+    staticStyle: {
+      height: "fit-content"
+    }
+  }, [_c("button", {
+    staticClass: "btn custom-btn-primary w-100"
+  }, [_c("svg", {
+    attrs: {
+      width: "18",
+      height: "18",
+      viewBox: "0 0 18 18",
+      fill: "none",
+      xmlns: "http://www.w3.org/2000/svg"
+    }
+  }, [_c("path", {
+    attrs: {
+      "fill-rule": "evenodd",
+      "clip-rule": "evenodd",
+      d: "M1.75061 15.5968V7.34976H2.91718V15.5968C2.91718 15.7651 2.97863 15.9264 3.08802 16.0454C3.19741 16.1644 3.34577 16.2312 3.50046 16.2312H13.9996C14.1543 16.2312 14.3026 16.1644 14.412 16.0454C14.5214 15.9264 14.5829 15.7651 14.5829 15.5968V7.34976H15.7494V15.5968C15.7494 16.1016 15.5651 16.5857 15.2369 16.9426C14.9088 17.2995 14.4637 17.5 13.9996 17.5H3.50046C3.03637 17.5 2.59129 17.2995 2.26313 16.9426C1.93497 16.5857 1.75061 16.1016 1.75061 15.5968ZM14.5829 1.64025V6.08098L12.2497 3.54342V1.64025C12.2497 1.472 12.3112 1.31064 12.4206 1.19167C12.53 1.0727 12.6783 1.00586 12.833 1.00586H13.9996C14.1543 1.00586 14.3026 1.0727 14.412 1.19167C14.5214 1.31064 14.5829 1.472 14.5829 1.64025Z",
+      fill: "white"
+    }
+  }), _vm._v(" "), _c("path", {
+    attrs: {
+      "fill-rule": "evenodd",
+      "clip-rule": "evenodd",
+      d: "M7.92524 0.371482C8.144 0.133622 8.44067 0 8.75 0C9.05933 0 9.356 0.133622 9.57476 0.371482L17.3289 8.8038C17.4385 8.92292 17.5 9.08448 17.5 9.25294C17.5 9.42141 17.4385 9.58297 17.3289 9.70209C17.2194 9.82121 17.0709 9.88814 16.916 9.88814C16.7611 9.88814 16.6125 9.82121 16.503 9.70209L8.75 1.26851L0.996986 9.70209C0.887461 9.82121 0.738913 9.88814 0.584021 9.88814C0.429129 9.88814 0.280581 9.82121 0.171056 9.70209C0.0615306 9.58297 0 9.42141 0 9.25294C0 9.08448 0.0615306 8.92292 0.171056 8.8038L7.92524 0.371482Z",
+      fill: "white"
+    }
+  })]), _vm._v("\n              Menu\n        ")])])]);
+};
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -6596,8 +6611,10 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("h3", {
-    staticClass: "fs-4 fw-bold"
+  return _c("div", {
+    staticClass: "w-100"
+  }, [_c("h3", {
+    staticClass: "text-center fs-4 fw-bold"
   }, [_vm._v("Berhasil Membuat Pesanan")])]);
 }];
 render._withStripped = true;
@@ -7019,7 +7036,7 @@ var render = function render() {
       padding: "0.5em 0.75em"
     },
     on: {
-      click: _vm.customClick
+      click: _vm.add
     }
   }, [_vm._v("\n                        Tambah\n                    ")])])])])]) : _vm._e()]);
 };
@@ -7321,14 +7338,14 @@ var modifyCart = function modifyCart(_ref2, payload) {
   var commit = _ref2.commit;
   commit("modifyCart", payload);
 };
-var resetCart = function resetCart(_ref3) {
+var finishCart = function finishCart(_ref3) {
   var commit = _ref3.commit;
-  commit("resetCart");
+  commit("finishCart");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   addToCart: addToCart,
   modifyCart: modifyCart,
-  resetCart: resetCart
+  finishCart: finishCart
 });
 
 /***/ }),
@@ -7517,9 +7534,15 @@ var modifyCart = function modifyCart(state, _ref2) {
   }
   console.log("modify cart ended");
 };
+var finishCart = function finishCart(state) {
+  console.log("finishing cart by emptying cart without restock...");
+  state.cart.products = {};
+  state.cart.total = 0;
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   addItem: addItem,
-  modifyCart: modifyCart
+  modifyCart: modifyCart,
+  finishCart: finishCart
 });
 
 /***/ }),
@@ -13347,7 +13370,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#qrcode-container {\r\n    min-height: -moz-fit-content;\r\n    min-height: fit-content;\r\n    background: #ffffff;\r\n    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);\r\n    border-radius: 10px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#qrcode-container {\r\n    max-width: 140px;\n}\n#qrcode-box {\r\n    min-height: -moz-fit-content;\r\n    min-height: fit-content;\r\n    background: #ffffff;\r\n    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);\r\n    border-radius: 10px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13395,7 +13418,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ninput[type=\"radio\"] {\r\n    display: none;\n}\n#btn-right-bot {\r\n    position: fixed;\r\n    bottom: 2rem;\r\n    right: 1rem;\r\n    display: inline-block;\r\n    width: 65px;\r\n    height: 65px;\r\n    z-index: 999;\n}\n#category-buttons {\r\n    padding-block: 1rem;\r\n    background-color: white;\r\n    border-bottom: 1px solid #a4a4a4;\n}\n#category-buttons label {\r\n    padding: 0;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\n}\n#category-buttons > * {\r\n    transition: all 100ms ease-in;\r\n    font-weight: 400;\r\n    font-size: 0.97rem;\r\n    color: rgba(255, 255, 255, 0.75);\r\n    position: relative;\r\n    overflow: hidden;\r\n    width: 100px;\r\n    height: 50px;\n}\n#category-buttons span {\r\n    display: inline-block;\r\n    line-height: 100%;\n}\r\n\r\n/* #category-buttons > *::before {\r\n    position: absolute;\r\n    width: 60px;\r\n    height: 60px;\r\n    bottom: -95%;\r\n    left: -15%;\r\n    z-index: 0;\r\n}\r\n\r\n#category-buttons > #btn-drink::before {\r\n    bottom: -25%;\r\n} */\n#btn-food {\r\n    background: linear-gradient(182.29deg, #7583b6 2.19%, #66739f 98.38%);\n}\r\n\r\n/* #btn-food::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-makanan-tab.png\");\r\n} */\n#btn-drink {\r\n    background: linear-gradient(178.85deg, #d79068 0.85%, #b57552 98.9%);\n}\r\n\r\n/* #btn-drink::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-minuman-tab.png\");\r\n} */\n#btn-snack {\r\n    background: linear-gradient(1.15deg, #17766d 1.1%, #43a39a 99.15%);\n}\r\n\r\n/* #btn-snack::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-snack-tab.png\");\r\n} */\n#category-buttons input:checked + label {\r\n    font-weight: 500;\r\n    color: white;\r\n    font-size: 1rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ninput[type=\"radio\"] {\r\n    display: none;\n}\n#btn-right-bot {\r\n    position: fixed;\r\n    bottom: 2rem;\r\n    right: 1rem;\r\n    display: inline-block;\r\n    width: 65px;\r\n    height: 65px;\r\n    z-index: 999;\n}\n#category-buttons {\r\n    padding-block: 1rem;\r\n    background-color: white;\r\n    border-bottom: 1px solid #a4a4a4;\n}\n#category-buttons label {\r\n    padding: 0;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\n}\n#category-buttons > * {\r\n    transition: all 75ms ease-in;\r\n    font-weight: 400;\r\n    font-size: 0.97rem;\r\n    color: rgba(255, 255, 255, 0.75);\r\n    position: relative;\r\n    overflow: hidden;\r\n    width: 100px;\r\n    height: 50px;\n}\n#category-buttons span {\r\n    display: inline-block;\r\n    line-height: 100%;\n}\r\n\r\n/* #category-buttons > *::before {\r\n    position: absolute;\r\n    width: 60px;\r\n    height: 60px;\r\n    bottom: -95%;\r\n    left: -15%;\r\n    z-index: 0;\r\n}\r\n\r\n#category-buttons > #btn-drink::before {\r\n    bottom: -25%;\r\n} */\n#btn-food {\r\n    background: linear-gradient(182.29deg, #7583b6 2.19%, #66739f 98.38%);\n}\r\n\r\n/* #btn-food::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-makanan-tab.png\");\r\n} */\n#btn-drink {\r\n    background: linear-gradient(178.85deg, #d79068 0.85%, #b57552 98.9%);\n}\r\n\r\n/* #btn-drink::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-minuman-tab.png\");\r\n} */\n#btn-snack {\r\n    background: linear-gradient(1.15deg, #17766d 1.1%, #43a39a 99.15%);\n}\r\n\r\n/* #btn-snack::before {\r\n    content: url(\"https://github.com/asrofilfachrulr/e-warung-vue/raw/main/assets-hosting/icon-bg-snack-tab.png\");\r\n} */\n#category-buttons input:checked + label {\r\n    font-weight: 500;\r\n    color: white;\r\n    font-size: 1rem !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

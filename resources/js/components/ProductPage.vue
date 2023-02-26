@@ -272,7 +272,7 @@ input[type="radio"] {
 }
 
 #category-buttons > * {
-    transition: all 100ms ease-in;
+    transition: all 75ms ease-in;
     font-weight: 400;
     font-size: 0.97rem;
     color: rgba(255, 255, 255, 0.75);
