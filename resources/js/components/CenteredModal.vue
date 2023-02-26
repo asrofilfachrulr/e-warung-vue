@@ -1,5 +1,11 @@
 <template>
-    <div class="modal fade" :id="id" tabindex="-1" aria-hidden="true">
+    <div
+        class="modal fade"
+        :data-bs-backdrop="backdrop || 'true'"
+        :id="id"
+        tabindex="-1"
+        aria-hidden="true"
+    >
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,6 +63,10 @@ export default {
         },
         state: {
             type: Boolean,
+            required: false,
+        },
+        backdrop: {
+            type: String,
             required: false,
         },
     },

@@ -1,7 +1,7 @@
 <template>
     <div
-        class="container-sm px-0 position-relative vh-100"
-        style="max-height: 100vh !important; overflow: hidden auto"
+        class="container-sm mx-auto px-0 position-relative vh-100"
+        style="max-width: 600px; max-height: 100vh !important; overflow: hidden"
     >
         <router-link to="/cart">
             <button
@@ -21,12 +21,19 @@
                         fill="white"
                     />
                 </svg>
+                <span
+                    v-if="cart.total > 0"
+                    class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle"
+                    style="top: 13px; right 5px"
+                >
+                    <span class="visually-hidden">cart content</span>
+                </span>
             </button>
         </router-link>
         <div
             id="category-buttons"
             class="container-sm px-0 mt-4 d-flex justify-content-evenly position-sticky top-0"
-            style="z-index: 9"
+            style="z-index: 9; height: 90px"
         >
             <input
                 id="radio-food"
@@ -62,9 +69,20 @@
             >
         </div>
         <div
-            class="container-sm"
-            style="overflow: hidden auto; background-color: var(--clr-gray)"
+            class="container-sm position-relative pb-5"
+            style="
+                overflow: hidden scroll;
+                background-color: var(--clr-gray);
+                max-height: calc(100vh - 90px);
+                min-height: calc(100vh - 90px);
+            "
         >
+            <spinner-fullscreen
+                :data="spinnerData"
+                v-if="isLoading"
+            ></spinner-fullscreen>
+
+            <toast :data="toastData"></toast>
             <product-section
                 :productType="'tile'"
                 :products="products"
@@ -98,6 +116,7 @@ import ProdModalHeaderVue from "./ModalComponent/ProductPage/ProdModalHeader.vue
 export default {
     data: function () {
         return {
+            currentCategoryName: "",
             products: {}, // current product on category
             currentTitle: {},
             product: {}, // selected product on toggling modal
@@ -140,8 +159,19 @@ export default {
                         stock: "",
                     },
                 },
+                spinnerData: {
+                    message: "",
+                },
+            },
+            toastData: {
+                id: "toast-info",
+                message: "",
+            },
+            spinnerData: {
+                message: `Memuat ${this.currentCategoryName}...`,
             },
             modalState: false,
+            isLoading: false,
         };
     },
     watch: {
@@ -164,6 +194,7 @@ export default {
             snacks: "getSnacks",
             snacksSize: "getSnacksSize",
         }),
+        ...mapGetters("cart", { cart: "getCart" }),
         searchProductById() {
             return (id) => {
                 for (let i = 0; i < this.products.total; i++)
@@ -183,15 +214,33 @@ export default {
         ...mapActions("cart", ["addToCart"]),
 
         fetchIfNotLoaded: async function (product) {
+            this.isLoading = true;
+
             if (product === "FOODS" && this.foodsSize === 0)
                 await this.fetchFoods();
             else if (product === "DRINKS" && this.drinksSize === 0)
                 await this.fetchDrinks();
             else if (product === "SNACKS" && this.snacksSize === 0)
                 await this.fetchSnacks();
+
+            this.isLoading = false;
         },
         setCategory: async function (product) {
+            switch (product) {
+                case "FOODS":
+                    this.currentCategoryName = "Makanan";
+                    break;
+                case "DRINKS":
+                    this.currentCategoryName = "Minuman";
+                    break;
+                case "SNACKS":
+                    this.currentCategoryName = "Camilan";
+                    break;
+            }
+
+            this.spinnerData.message = `Memuat ${this.currentCategoryName}...`;
             await this.fetchIfNotLoaded(product);
+
             if (product === "FOODS") {
                 this.products = this.foods;
                 this.currentTitle = this.titles.foods;
@@ -202,6 +251,11 @@ export default {
                 this.products = this.snacks;
                 this.currentTitle = this.titles.snacks;
             }
+
+            this.$router.push({
+                path: "/katalog",
+                query: { kategori: this.currentCategoryName.toLowerCase() },
+            });
         },
         toggleModalProduct: function (id) {
             this.product = this.searchProductById(id);
@@ -226,7 +280,7 @@ export default {
                 });
             });
         },
-        handleProductModalSubmit(data) {
+        async handleProductModalSubmit(data) {
             const payload = {
                 id: this.product.id,
                 req: data.body.toString(),
@@ -235,11 +289,25 @@ export default {
                 qty: Number(data.footer),
             };
             this.addToCart(payload);
+            this.toastData.message = "Berhasil ditambahkan ke keranjang!";
+            const toast = new bootstrap.Toast(
+                document.getElementById(this.toastData.id),
+                { autohide: false }
+            );
+            await this.showToast(toast);
+        },
+        showToast(toast) {
+            toast.show();
+            setTimeout(() => {
+                toast.hide();
+            }, 3000);
         },
     },
     mounted: async function () {
         console.log("mounted product page");
+        this.isLoading = true;
         await this.setCategory("FOODS");
+        this.isLoading = false;
     },
 };
 </script>
@@ -249,7 +317,7 @@ input[type="radio"] {
     display: none;
 }
 #btn-right-bot {
-    position: fixed;
+    position: absolute;
     bottom: 2rem;
     right: 1rem;
     display: inline-block;

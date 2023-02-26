@@ -6,6 +6,12 @@
         v-if="product.discount != 0"
         @click="handleClick"
     >
+        <disabled-overlay
+            :data="{
+                text: 'Habis..',
+            }"
+            v-if="product.origin <= 0"
+        ></disabled-overlay>
         <img :src="product.img" class="card-img-top" alt="..." />
         <div class="card-body">
             <h3 class="card-title">{{ product.name }}</h3>
@@ -30,6 +36,8 @@ export default {
     mounted() {},
     methods: {
         handleClick() {
+            if (this.product.origin <= 0) return;
+
             this.$emit("productClicked", this.product.id);
         },
     },

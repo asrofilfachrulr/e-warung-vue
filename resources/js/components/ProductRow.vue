@@ -1,11 +1,16 @@
 <template>
-    <div class="col-md-6">
+    <div class="col-md-6" v-if="product.discount == 0">
         <div
             id="product-row"
-            class="card"
+            class="card position-relative"
             style="max-width: 100%"
-            v-if="product.discount == 0"
         >
+            <disabled-overlay
+                :data="{
+                    text: 'Habis..',
+                }"
+                v-if="product.origin <= 0"
+            ></disabled-overlay>
             <div class="row g-0">
                 <div class="col-4 p-2" @click="handleClick">
                     <img class="img-fluid rounded" :src="product.img" />
@@ -24,7 +29,8 @@
                         <button
                             style="padding: 0.5em 0.75em"
                             class="btn custom-btn-primary-outline"
-                            @click="add"
+                            @click="handleClick"
+                            :disabled="product.origin <= 0 ? true : false"
                         >
                             Tambah
                         </button>
@@ -42,10 +48,8 @@ export default {
     },
     methods: {
         handleClick() {
+            if (this.product.origin <= 0) return;
             this.$emit("productClicked", this.product.id);
-        },
-        add() {
-            console.log("click add product on product row");
         },
     },
 };

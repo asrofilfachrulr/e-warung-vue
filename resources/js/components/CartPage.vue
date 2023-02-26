@@ -1,17 +1,18 @@
 <template>
     <div
-        class="container-fluid px-0 vh-100 pt-2 pb-5"
-        style="max-height: 100vh; overflow: hidden"
+        class="container-fluid px-0 vh-100 pt-2 pb-5 position-relative"
+        style="max-width: 600px; max-height: 100vh; overflow: hidden"
     >
+        <spinner-fullscreen v-if="isLoading"></spinner-fullscreen>
         <button
             class="btn btn-success position-fixed"
-            style="top: 5px; right: 5px"
+            style="top: 5px; right: 5px; display: none"
             @click="generateDummyCartItem"
         >
             Generate
         </button>
-        <router-link
-            to="/"
+        <div
+            @click="backToMenu"
             style="text-decoration: none; color: inherit; display: block"
         >
             <div class="d-flex align-items-center mb-4">
@@ -33,7 +34,7 @@
                 </button>
                 <span id="hint-btn-chevron-back">Kembali ke Menu</span>
             </div>
-        </router-link>
+        </div>
         <h2 class="px-4">Keranjang Pesanan</h2>
         <div class="container-fluid pt-2 px-0 h-100" id="cart-container">
             <!-- Grid Table Container -->
@@ -45,8 +46,8 @@
                     id="header-table-cart"
                     class="row row-cols-2 fw-bold fs-5 py-2 px-2"
                 >
-                    <div class="col-8">Product</div>
-                    <div class="col-4 text-end">Price</div>
+                    <div class="col-8">Produk</div>
+                    <div class="col-4 text-end">Harga</div>
                 </div>
                 <div class="row sep-shadow"></div>
                 <div class="p-0" id="row-table-cart">
@@ -122,7 +123,7 @@
             <!-- Bottom Container -->
             <div
                 id="cart-bottom-container"
-                class="w-100 position-fixed bottom-0 d-flex justify-content-end flex-column"
+                class="w-100 position-absolute bottom-0 d-flex justify-content-end flex-column"
                 style="height: 150px; background: white; z-index: 99"
             >
                 <div class="px-3 py-4">
@@ -187,6 +188,7 @@
             :body="modalData.body"
             :footer="modalData.footer"
             :id="modalId"
+            :backdrop="'static'"
             @submit-action="handleSubmit"
         ></centered-modal>
     </div>
@@ -200,6 +202,7 @@ import CheckoutModalHeaderVue from "./ModalComponent/Checkout/CheckoutModalHeade
 export default {
     data: function () {
         return {
+            isLoading: false,
             flatCart: [],
             orderName: "",
             modalId: "checkoutModalId",
@@ -239,6 +242,9 @@ export default {
         ...mapGetters("checkout", { checkoutCounter: "getCounter" }),
     },
     methods: {
+        backToMenu() {
+            this.$router.go(-1);
+        },
         ...mapActions("cart", ["addToCart", "modifyCart", "finishCart"]),
         ...mapActions("products", [
             "modifyStock",
@@ -293,14 +299,17 @@ export default {
             });
         },
         clearCart() {
+            this.isLoading = true;
             console.log("invoke clear cart..");
 
             this.flatCart.forEach((item) => {
                 this.removeItem(item);
             });
             console.log("clear cart has been finished");
+            this.isLoading = false;
         },
         async checkoutCart() {
+            this.isLoading = true;
             // post order from checked cart out
             const response = await this.postOrder({
                 name: this.orderName || "no-name",
@@ -327,13 +336,17 @@ export default {
                 .css("transform", "scale(1.25)");
 
             $("#" + this.modalId).modal("toggle");
-
-            // clear cart without restock
-            this.finishCart();
+            this.isLoading = false;
         },
         handleSubmit() {
-            // clear cart (but no re-stock)
+            // clear cart without restock
+            this.finishCart();
+
+            // dismiss the modal
+            $("#" + this.modalId).modal("toggle");
+
             // go back to home
+            this.$router.go(-1);
         },
         // utilities
         flattingCart() {

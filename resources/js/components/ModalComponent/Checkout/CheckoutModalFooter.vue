@@ -5,7 +5,11 @@
             anda masukan
         </small>
         <div class="col-5 align-self-center" style="height: fit-content">
-            <button class="btn custom-btn-primary w-100">
+            <button
+                id="back-to-menu-btn"
+                class="btn d-flex align-items-center justify-content-center gap-1 custom-btn-primary w-100"
+                @click="closeModal"
+            >
                 <svg
                     width="18"
                     height="18"
@@ -26,14 +30,25 @@
                         fill="white"
                     />
                 </svg>
-                &nbsp; Menu
+                <span>Kembali ke Menu</span>
             </button>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        closeModal() {
+            this.$emit("submit-action");
+        },
+    },
+};
 </script>
 
-<style></style>
+<style>
+#back-to-menu-btn > svg {
+    min-width: 18px;
+    min-height: 18px;
+}
+</style>

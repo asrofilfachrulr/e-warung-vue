@@ -75,6 +75,18 @@ Vue.component(
         .default
 );
 
+Vue.component(
+    "spinner-fullscreen",
+    require("./components/SpinnerFullscreen.vue").default
+);
+
+Vue.component(
+    "disabled-overlay",
+    require("./components/DisabledOverlay.vue").default
+);
+
+Vue.component("toast", require("./components/Toast.vue").default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
